@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="register.css">
+</head>
+<body>
+
+
+
+  <div id="alertContainer" class="alert d-none" role="alert"></div>
+
+
+  <div class="container1">
+   
+          
+
+     <form id="registerForm">
+                <div class="mb-3">
+                  <label for="exampleInputEmail1" class="form-label">Name</label>
+                  <input type="text" class="form-control" id="username" >
+                 
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp">
+                   
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Phone</label>
+                    <input type="text" class="form-control" id="phone" aria-describedby="emailHelp">
+                   
+                  </div>
+
+                <div class="mb-3">
+                  <label for="exampleInputPassword1" class="form-label">Password</label>
+                  <input type="password" class="form-control" id="password"  style="margin-bottom: 40px;">
+                </div>
+                <select class="form-select" aria-label="Default select example" style="margin-bottom: 30px;" id="role">
+                    <option selected>Role</option>
+                    <option value="user">User</option>
+                    <option value="admin">Admin</option>
+                   
+                  </select>
+
+
+
+                
+
+                
+
+
+                <button type="submit" class="btn btn-primary" id="btnSignup">SignUp</button>
+
+
+                <div class="mb-3 form-check" style="margin-top: 20px;">
+                 
+                  <label class="container" class="form-check-label" for="exampleCheck1" style="margin-top: 15px;">Have an account?  <a href="Login.html">Login Here</a></label>
+                </div>
+              </form>
+
+        </div>
+
+        <script>
+
+document.getElementById('registerForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const username = document.getElementById('username').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const password = document.getElementById('password').value;
+    const role = document.getElementById('role').value;
+
+    try {
+        const response = await fetch('http://localhost:9000/registerUser', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, email, phone, password, role }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            alert(`User created successfully: ${data.message}`);
+        } else {
+            alert(`Error: ${data.error || "Unknown error occurred"}`);
+        }
+    } catch (error) {
+        alert(`Network Error: ${error.message}`);
+        console.error("Fetch error:", error);
+    }
+});
+
+         
+        </script>
+  
+</body>
+</html>
