@@ -9,16 +9,21 @@ const registerRoutes = require('./routes/registerRoute');
 const loginRoutes = require('./routes/loginRoute');
 const OrderRoutes = require('./routes/OrderRoutes');
 const CartItemRoutes = require('./routes/CartItemRoutes');
+const AddOrderRoute = require('./routes/addOrderRoute');
+const ClearCartRoure = require('./routes/ClearCartRoute');
 const port = 9000;
 
 app.use(session({
-    secret: 'mysecret',
+    secret: process.env.SESSION_SECRET || 'mysecret',  
     resave: false,
-    saveUninitialized: true,
-    cookie:{secure: false}
-
-
+    saveUninitialized: false,  
+    cookie: {
+        secure: process.env.NODE_ENV === 'production', 
+        httpOnly: true, 
+        maxAge: 1000 * 60 * 60 * 24  
+    }
 }));
+
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
@@ -29,6 +34,8 @@ app.use(registerRoutes);
 app.use(loginRoutes);
 app.use(OrderRoutes);
 app.use(CartItemRoutes);
+app.use(ClearCartRoure);
+app.use(AddOrderRoute);
 app.use('/slide', express.static(path.join(__dirname, 'public', 'slide')));
 app.get('/',(req,res) =>{
     res.sendFile(path.join(__dirname, 'public', 'indexx.html'));

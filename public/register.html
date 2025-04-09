@@ -41,7 +41,7 @@
                   <input type="password" class="form-control" id="password"  style="margin-bottom: 40px;">
                 </div>
                 <select class="form-select" aria-label="Default select example" style="margin-bottom: 30px;" id="role">
-                    <option selected>Role</option>
+                  
                     <option value="user">User</option>
                     <option value="admin">Admin</option>
                    
@@ -81,6 +81,7 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, email, phone, password, role }),
+             credentials: 'same-origin'
         });
 
         const data = await response.json();
