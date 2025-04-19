@@ -222,124 +222,72 @@ body {
     margin-top: 100px;
     
 }
+.container{
+   
+}
 
+.container h2{
+    margin-left: -78%;
+    margin-top: 120px;
+    font-size: 40px;
+}
+hr{
+    width: 95%;
+    margin-bottom: 50px;
+}
+ input{
 
-
-.carousel-indicators button {
-    width: 8px !important; 
-    height: 8px !important;
-    border-radius:50% !important ;
-
-    background-color: rgba(0, 0, 0, 0.5); 
+    padding-right: 10px;
+    border-radius: 10px;
     border: none;
-    background-color: #b3b6b6 !important;
-    margin: 0 5px !important;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+  padding-left: 10px;
+    width: 80%;
+    height: 40px;
+   border: solid 1px #ccc;
 }
-
-.carousel-indicators .active {
-    background-color: orange !important; 
-    transform: scale(1.1); 
-}
-
-
-.row .card{
-   margin: 30px 20px;
- 
-}
-
-.container1 img{
-    margin-left: 8% !important;
- 
-    border-radius: 120px !important;
-    margin-top: 30px !important;
-    transition: all 0.3s ease-in-out;
-}
-.container1 h3{
-   text-align: center;
-   margin-top: 20px !important;
-}
-.container1 img:hover{
-  box-shadow: 1px 1px 12px 3px rgba(0, 0, 0, 0.5);
-}
-
-.container2 h2{
-    text-align: center;
-}
-.modal-header{
-    border: none !important;
-}
-.backimg img{
-    width: 100% !important;
-  
-
-}
-
-.footer{
-
+.checkout{
+    width: 40%;
+   height: 350px;
    
-    background-color: #1d1d38 ;
-    /*height: 200px ;*/
+    margin-top: 50px;
+    margin-left: 80px;
+    margin-bottom: 40px;
+    margin-right: 50px;
+    padding: 10px 80px;
+    border-radius: 20px;
+    box-shadow: 1px 1px 18px 1px rgba(88, 86, 86, 0.5);
+
+  
 }
-.media{
-    background-color: #6156a8;
-    color: white;
-    display: flex;
-   justify-content: space-between;
-   height: 85px;
-}
-.media .icons{
-    margin-top: 30px;
-  margin-right: 6%;
-}
- .icons i{
+.checkout span{
     font-size: 20px;
-    width: 45px;
-}
-.media h4{
-  margin-left: 25px;
-    margin-top: 28px;
-}
-.containerpara{
-   
-    display: flex;
-   
-    color:  white;
-}
-.containerpara .contpara1{
+    margin-left: 60px;
   
-    margin-left: 30px;
-    width: 300px;
+    
 }
-.containerpara .titel{
+.checkout select{
+   width: 50%;
+   height: 35px;
+   margin-left: 25px;
+   padding-left: 10px;
+}
+.checkout label{
+    margin-bottom: 20px;
+    
+}
+.checkout button{
     margin-top: 20px;
-    margin-bottom: 30px;
-}
-.containerpara .contpara2{
-    margin-left: 10%;
-}
-.containerpara .contpara3{
-    margin-left: 10%;
-}
-.containerpara .contpara2 h6{
-    margin-bottom: 20px;
-}
-.containerpara .contpara3 h6{
-    margin-bottom: 20px;
+    width: 100%;
+    height: 45px;
+    border-radius: 20px;
    
+    color: white;
+    border: none;
 }
-
-
-
-
-
-
-
-
-
-
-
-
+.checkout h4{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
 
 
 

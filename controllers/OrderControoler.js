@@ -14,7 +14,7 @@ exports.AddOrder = (req, res) => {
     const userId = req.session.user.id_user;
     const { Total_price } = req.body;
 
-    // التحقق من أن Total_price رقم صالح
+    
     if (!Total_price || isNaN(Total_price) || Total_price <= 0) {
         console.log("Invalid total price received:", Total_price);
         return res.status(400).json({ message: "invalid total price" });

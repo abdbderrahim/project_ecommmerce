@@ -1,0 +1,145 @@
+body{
+    background-color: #ecebeb; 
+  
+}
+.containerr{
+    display: flex;
+}
+input{
+    display: block;
+}
+li{
+  
+    list-style: none;
+    padding: 15px 15px;
+    margin-top: 10px;
+    width: 250px;
+  
+}
+  
+.nav{
+ 
+  padding-left: -10px; 
+   height: 5000;
+   background-color: #881f1f;
+ 
+   
+}
+a{
+    text-decoration: none;
+    color: rgb(87, 80, 80) ;
+}
+.bar i{
+    margin-left: 22px;
+    font-size: 20px;
+    
+}
+ul{
+    background-color: white;
+    padding-left: 1px; 
+    height: 210%;
+  
+    padding-left: 20px;
+  
+   
+}
+ .nav a{
+   
+    padding-right: 70px;
+ 
+ }
+ ul li a {
+   
+   padding: 10px 1px;
+ 
+ }
+ li{
+    
+    border-radius: 12px;
+    padding-left:20px;
+    margin-right: 25px;
+ }
+ li:hover{
+    background-color: rgb(115, 115, 230);
+ }
+ a:hover{
+   color: white;
+ }
+ .title{
+    font-size: 40px;
+    margin-top: 30px;
+    margin-left: 40px;
+   
+ }
+ .form{
+   
+    width: 100%;
+    margin: 10px 40px;
+
+ }
+ form{
+    background-color: white;
+    margin-top: 30px;
+    padding: 50px 50px;
+    border-radius: 20px;
+    box-shadow: 1px 1px 12px 3px rgba(0,0,0,0.1);
+
+
+ }
+ input{
+    width: 100%;
+    height: 40px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    margin-bottom: 15px;
+    margin-top: 10px;
+   
+ }
+ table {
+  margin-left: 330px;
+ }
+ h2{
+    margin-left: 330px;
+ }
+ table {
+    width: 73%;
+    border-collapse: collapse;
+    background: white;
+  }
+
+  table, th, td {
+    border: 1px solid #ccc;
+  }
+
+  th, td {
+    padding: 10px;
+    text-align: left;
+  }
+
+  .action-buttons button {
+    background: #28a745;
+    margin-right: 5px;
+    border: none;
+    padding: 6px 10px;
+    color: white;
+    border-radius: 5px;
+  }
+
+  .action-buttons .delete {
+    background: #dc3545;
+    border: none;
+    padding: 6px 10px;
+
+  }
+
+
+  
+ 
+
+
+ 
+
+
+
+
+

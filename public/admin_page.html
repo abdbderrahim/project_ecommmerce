@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <div class="containerr">
+   
+        <div class="nav">
+            <ul class="bar">
+                <li><a href=""><i class="fa-solid fa-user">&nbsp &nbsp</i>Users</a></li>
+               <li><a href=""><i class="fa-brands fa-product-hunt">&nbsp &nbsp</i>Products</a></li>
+               <li><a href=""><i class="fa-solid fa-layer-group">&nbsp &nbsp</i>Categories</a></li>
+               <li><a href=""><i class="fa-solid fa-circle-check">&nbsp &nbsp</i>Ordres</a></li>
+               <li><a href=""><i class="fa-brands fa-stack-exchange">&nbsp &nbsp</i>Stock Entrie</a></li>
+                </li>
+            </ul>
+        </div>
+            
+
+       <div class="form">
+         <h1 class="title">Admin - Manage Products</h1>
+        <form action="">
+
+            <label for="">Product Name</label>
+            <input type="text" name="" id="" required>
+
+            <label for="">Description</label>
+            <input type="text" name="" id="" required>
+
+            <label for="">Price</label>
+            <input type="number" name="" id="" required>
+
+            <label for="">stock</label>
+            <input type="number" name="" id="" required>
+
+            <label for="">ID Category</label>
+            <input type="number" name="" id="" required>
+
+            <button type="submit" class="btn btn-primary">Add Product</button>
+        </form>
+       </div>
+    </div>
+    <h2>Existing Products</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th><th>Name</th><th>Price</th><th>Stock</th><th>Category</th><th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Products rows from database here -->
+      <tr>
+        <td>1</td>
+        <td>Tomato</td>
+        <td>2.99</td>
+        <td>100</td>
+        <td>1</td>
+        <td class="action-buttons">
+          <button>Edit</button>
+          <button class="delete">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>
