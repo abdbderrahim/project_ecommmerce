@@ -13,11 +13,11 @@
    
         <div class="nav">
             <ul class="bar">
-                <li><a href=""><i class="fa-solid fa-user">&nbsp &nbsp</i>Users</a></li>
-               <li><a href=""><i class="fa-brands fa-product-hunt">&nbsp &nbsp</i>Products</a></li>
-               <li><a href=""><i class="fa-solid fa-layer-group">&nbsp &nbsp</i>Categories</a></li>
-               <li><a href=""><i class="fa-solid fa-circle-check">&nbsp &nbsp</i>Ordres</a></li>
-               <li><a href=""><i class="fa-brands fa-stack-exchange">&nbsp &nbsp</i>Stock Entrie</a></li>
+               <li><a href="UserManagement.html"><i class="fa-solid fa-user">&nbsp &nbsp</i>Users</a></li>
+               <li><a href="admin_page.html"><i class="fa-brands fa-product-hunt">&nbsp &nbsp</i>Products</a></li>
+               <li><a href="CategorieManagement.html"><i class="fa-solid fa-layer-group">&nbsp &nbsp</i>Categories</a></li>
+               <li><a href="OrderManagement.html"><i class="fa-solid fa-circle-check">&nbsp &nbsp</i>Ordres</a></li>
+               <li><a href="ProductEntries.html"><i class="fa-brands fa-stack-exchange">&nbsp &nbsp</i>Stock Entrie</a></li>
                 </li>
             </ul>
         </div>
@@ -25,48 +25,227 @@
 
        <div class="form">
          <h1 class="title">Admin - Manage Products</h1>
-        <form action="">
+        <form id="product-form" action="" enctype="multipart/form-data">
 
             <label for="">Product Name</label>
-            <input type="text" name="" id="" required>
+            <input type="text" name="name" id="name" required>
 
             <label for="">Description</label>
-            <input type="text" name="" id="" required>
+            <input type="text" name="description" id="description" required>
 
             <label for="">Price</label>
-            <input type="number" name="" id="" required>
+            <input type="number" name="price" id="price" required>
 
             <label for="">stock</label>
-            <input type="number" name="" id="" required>
+            <input type="number" name="stock" id="stock" required>
 
             <label for="">ID Category</label>
-            <input type="number" name="" id="" required>
+            <input type="number" name="id_categorie" id="id_categorie" required>
+
+            <label for="">Iamge Product</label>
+            <input type="file" name="img_product" id="img_product"  accept="image/*" required>
 
             <button type="submit" class="btn btn-primary">Add Product</button>
         </form>
        </div>
     </div>
     <h2>Existing Products</h2>
-  <table>
-    <thead>
+  <table class="table table-bordered table-hover mt-3">
+    <thead class="table-dark">
       <tr>
-        <th>ID</th><th>Name</th><th>Price</th><th>Stock</th><th>Category</th><th>Actions</th>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Stock</th>
+        <th>Product Image</th>
+        <th>created At</th>
+        <th>Updated At</th>
+        <th>ID Category</th>
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
-      <!-- Products rows from database here -->
-      <tr>
-        <td>1</td>
-        <td>Tomato</td>
-        <td>2.99</td>
-        <td>100</td>
-        <td>1</td>
-        <td class="action-buttons">
-          <button>Edit</button>
-          <button class="delete">Delete</button>
-        </td>
-      </tr>
+      
+      
     </tbody>
   </table>
+
+  <script>
+    
+
+
+    let ID_Product = null; // نخزن فيه ID المنتج وقت التعديل
+
+document.getElementById('product-form').addEventListener('submit', function (e) {
+  e.preventDefault();
+
+  const form = e.target;
+  const formData = new FormData(form);
+
+  if (ID_Product === null) {
+    // 👉 إضافة منتج جديد
+    fetch('http://localhost:9000/AddProduct', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      alert(data.message);
+      if (data.success) {
+        form.reset();
+        DisplayProductsData();
+      }
+    });
+
+  } else {
+    // 🛠️ تحديث منتج موجود
+    formData.append('id_product', ID_Product); // نرسل ID المنتج مع البيانات
+
+    fetch('http://localhost:9000/UpdateProduct', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      alert(data.message);
+      if (data.success) {
+        form.reset();
+        ID_Product = null; // نرجع المتغير للقيمة الأصلية
+        document.querySelector('button[type="submit"]').textContent = 'Add Product';
+        DisplayProductsData();
+      }
+    });
+  }
+});
+
+
+
+    function DisplayProductsData() {
+  fetch('http://localhost:9000/GetAllProducts')
+    .then(response => response.json())
+    .then(data => {
+      console.log("Data received:", data);
+
+      const tbody = document.querySelector('tbody');
+      tbody.innerHTML = "";
+
+      if (data.products && Array.isArray(data.products)) {
+        data.products.forEach(product => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${product.id_product || ''}</td>
+            <td>${product.name || ''}</td>
+            <td>${product.description || ''}</td>
+            <td>${product.price || ''}</td>
+            <td>${product.stock || ''}</td>
+            <td>
+              ${product.img_product ? `<img src="${product.img_product.replaceAll('\\', '/')}" width="50" height="50" />` : 'No Image'}
+            </td>
+            <td>${product.created_date || ''}</td>
+            <td>${product.updated_date || ''}</td>
+            <td>${product.id_categorie || ''}</td>
+            <td class="action-buttons">
+              <button onclick="EditProduct(${product.id_product})" class="btn btn-sm btn-warning">Edit</button>
+              <button onclick="DeleteProduct(${product.id_product})" class="btn btn-sm btn-danger delete">Delete</button>
+            </td>
+          `;
+          tbody.appendChild(row);
+        });
+        alert(data.message);
+      } else {
+        alert("No products found.");
+      }
+    })
+    .catch(error => {
+      console.error("Error fetching products:", error);
+    });
+}
+
+
+
+
+
+//DisplayProductsData();
+
+function DeleteProduct(id) {
+  console.log("DeleteProduct called with ID:", id);
+
+  fetch(`http://localhost:9000/DeleteProduct`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ id })
+  })
+ 
+  .then(response => response.json())
+  .then(data => {
+    console.log("Delete response:", data);
+    if (data.success) {
+      alert(data.message);
+      // بعد الحذف، قم بتحديث قائمة المنتجات باستخدام DisplayProductsData
+      DisplayProductsData(); 
+     
+      // تأكد من أنك تستخدم DisplayProductsData هنا
+    } else {
+      alert(data.message);
+    }
+  })
+  .catch(error => {
+    console.error("Error deleting product:", error);
+  });
+}
+
+
+
+function EditProduct(id){
+  fetch(`http://localhost:9000/GetProductById/${id}`)
+  .then(response => response.json())
+  .then(data =>{
+    if(data.success){
+      const product = data.product;
+      document.getElementById('name').value = product.name;
+      document.getElementById('description').value = product.description;
+        document.getElementById('price').value = product.price;
+        document.getElementById('stock').value = product.stock;
+        document.getElementById('id_categorie').value = product.id_categorie;
+        ID_Product = product.id_product;
+        document.querySelector('button[type="submit"]').textContent = 'Update Product';
+
+      
+    }else{
+      alert(data.message);
+    }
+  });
+
+}
+
+/*document.getElementById('product-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+const form = e.target;
+const formData = new FormData(form);
+  fetch('http://localhost:9000/UpdateProduct' ,{
+    method: 'post',
+    body: formData
+   
+  })
+  .then(response => ressponse.json())
+  .then(data =>{
+    alert(data.message)
+    if(data.success){
+      alert(data.message);
+      form.reset();
+
+    }
+  });
+});*/
+
+DisplayProductsData();
+
+
+   
+  </script>
 </body>
 </html>

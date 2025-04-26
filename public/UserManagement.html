@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="UserManagement.css">
+    <!-- Toastify CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+<!-- Toastify JS -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+</head>
+<body>
+    <div class="containerr">
+   
+        <div class="nav">
+            <ul class="bar">
+              <li><a href="UserManagement.html"><i class="fa-solid fa-user">&nbsp &nbsp</i>Users</a></li>
+              <li><a href="admin_page.html"><i class="fa-brands fa-product-hunt">&nbsp &nbsp</i>Products</a></li>
+              <li><a href="CategorieManagement.html"><i class="fa-solid fa-layer-group">&nbsp &nbsp</i>Categories</a></li>
+              <li><a href="OrderManagement.html"><i class="fa-solid fa-circle-check">&nbsp &nbsp</i>Ordres</a></li>
+              <li><a href="ProductEntries.html"><i class="fa-brands fa-stack-exchange">&nbsp &nbsp</i>Stock Entrie</a></li>
+               </li>
+            </ul>
+        </div>
+            
+
+       <div class="form">
+         <h1 class="title">User Management</h1>
+        <form action="">
+
+            <label for="">Username</label>
+            <input type="text" name="" id="" required>
+
+            <label for="">Email</label>
+            <input type="email" name="" id="" required>
+
+            <label for="">Phone</label>
+            <input type="number" name="" id="" required>
+
+            <label for="">Password</label>
+            <input type="password" name="" id="" required>
+
+            <label for=""> Role</label>
+           <select name="" id="">
+            <option value="User">User</option>
+            <option value="Admin">Admin</option>
+           </select>
+
+            <button type="submit" class="btn btn-primary">Add User</button>
+        </form>
+       </div>
+    </div>
+    <h2>Existing Products</h2>
+  <table class="table table-bordered table-hover mt-3">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Phone</th>
+       
+        <th>Role</th>
+        <th>Created at</th>
+        <th>Updated at</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+     
+    </tbody>
+  </table>
+
+  <script>
+ 
+function DisplayProductsData(){
+  fetch('http://localhost:9000/GetAllUsers')
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      const tbody = document.querySelector('tbody');
+      tbody.innerHTML = ''; // نفرغ الجدول مرة واحدة فقط
+      if (data.users && Array.isArray(data.users)) {
+      data.users.forEach(user => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${user.id_user}</td>
+          <td>${user.username}</td>
+          <td>${user.email}</td>
+          <td>${user.phone}</td>
+         
+          <td>${user.role}</td>
+          <td>${user.created_at}</td>
+          <td>${user.updated_at}</td>
+          <td>
+            <button class="btn btn-sm btn-warning">Edit</button>
+            <button onclick="DeleteUser(${user.id_user})" class="btn btn-sm btn-danger">Delete</button>
+          </td>
+        `;
+        tbody.appendChild(row); // نضيف الصف
+      });
+    }else{
+      alert('no product found');
+    }
+    })
+    .catch(error => {
+      console.error('Error fetching users:', error);
+    });
+  
+}
+
+function DeleteUser(id){
+  fetch('http://localhost:9000/DeleteUser', {
+    method: 'delete',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({id: id})
+  })
+
+  .then(response => response.json())
+  .then(data =>{
+    console.log( 'data reviced',data.message);
+    if(data.success){
+      Toastify({
+      text: data.message,
+      duration: 3000,
+      close: true,
+      gravity: "top",
+      position: "right",
+      backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
+    }).showToast();
+      DisplayProductsData();
+    }else{
+      Toastify({
+      text: data.message,
+      duration: 3000,
+      close: true,
+      gravity: "top",
+      position: "right",
+      backgroundColor: "linear-gradient(to right, #ff5f6d, #ffc371)",
+    }).showToast();
+    }
+  })
+}
+
+DisplayProductsData();
+</script>
+
+  </script>
+</body>
+</html>
