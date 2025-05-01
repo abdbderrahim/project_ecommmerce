@@ -140,6 +140,12 @@ ul{
 
 
  
+  
+  /* هذا سيجعل الصفحة تظهر كصفحة عادية */
+  body {
+    overflow: auto;
+    position: relative;
+  }
 
 
 

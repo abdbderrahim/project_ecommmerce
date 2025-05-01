@@ -75,7 +75,7 @@
     
 
 
-    let ID_Product = null; // نخزن فيه ID المنتج وقت التعديل
+    let ID_Product = null; 
 
 document.getElementById('product-form').addEventListener('submit', function (e) {
   e.preventDefault();
@@ -84,7 +84,7 @@ document.getElementById('product-form').addEventListener('submit', function (e) 
   const formData = new FormData(form);
 
   if (ID_Product === null) {
-    // 👉 إضافة منتج جديد
+     
     fetch('http://localhost:9000/AddProduct', {
       method: 'POST',
       body: formData
@@ -186,6 +186,8 @@ function DeleteProduct(id) {
       alert(data.message);
       // بعد الحذف، قم بتحديث قائمة المنتجات باستخدام DisplayProductsData
       DisplayProductsData(); 
+      window.onload;
+      
      
       // تأكد من أنك تستخدم DisplayProductsData هنا
     } else {
@@ -241,7 +243,7 @@ const formData = new FormData(form);
     }
   });
 });*/
-
+window.onload = DisplayProductsData;
 DisplayProductsData();
 
 

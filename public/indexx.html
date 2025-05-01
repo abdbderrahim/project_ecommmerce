@@ -337,6 +337,7 @@ function addItemToCart(orderId, idProduct,productName, productPrice, productImg)
 fetch('http://localhost:9000/AddCartItem',{ 
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
+  credentials: 'include',
   body: JSON.stringify({
     quantity: 1,
     id_product: idProduct,

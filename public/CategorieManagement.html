@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="stylesheet" href="UserManagement.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <div class="containerr">
@@ -25,13 +26,13 @@
 
        <div class="form">
          <h1 class="title">Category Management</h1>
-        <form action="">
+        <form action="" id="CategorieForm">
 
             <label for="">Name</label>
-            <input type="text" name="" id="" required>
+            <input type="text" name="" id="name" required>
 
             <label for="">Description</label>
-            <input type="text" name="" id="" required>
+            <input type="text" name="" id="description" required>
 
             
 
@@ -51,16 +52,174 @@
     </thead>
     <tbody>
       
-      <tr>
-        <td>1</td>
-        <td>Homme</td>
-        <td>Decoration</td>
-         <td class="action-buttons">
-          <button>Edit</button>
-          <button class="delete">Delete</button>
-        </td>
-      </tr>
+    
     </tbody>
   </table>
+
+  <script>
+    let id_categorie = null;
+
+    function DisplayCategoriesData(){
+      fetch('http://localhost:9000/GetAllCategories', {
+
+      })
+      .then(response => response.json())
+      .then(data =>{
+        console.log(data);
+        const tbody = document.querySelector('tbody');
+        tbody.innerHTML = "";
+
+        data.forEach(category =>{
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+          
+          <td>${category.id_categorie}</td>
+          <td>${category.name}</td>
+          <td>${category.description}</td>
+
+          <td>
+              <button onclick="DeleteCategory(${category.id_categorie})" class="btn btn-danger btn-sm">Delete</button>
+              <button onclick="UpdateCategory(${category.id_categorie})" class="btn btn-warning btn-sm">Update</button>
+            </td>
+          
+          `;
+          tbody.appendChild(tr);
+        })
+       
+      })
+    }
+
+
+    
+
+document.getElementById('CategorieForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const name = document.getElementById('name').value;
+    const description = document.getElementById('description').value;
+
+    // الحالة 1: إضافة فئة جديدة
+    if (id_categorie === null) {
+        fetch('http://localhost:9000/AddCategory', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name, description })
+        })
+        .then(res => res.json())
+        .then(data => {
+          console.log(data.success);
+           
+            if (data.success) {
+
+              showSwal(`${data.message}`,'success')
+                document.getElementById('CategorieForm').reset();
+                DisplayCategoriesData();
+            }else{
+              showSwal(`${data.message}`, 'error');
+            }
+        });
+    } 
+    
+    // الحالة 2: تحديث فئة موجودة
+    else {
+        fetch(`http://localhost:9000/UpdateCategory/${id_categorie}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name, description })
+        })
+        .then(res => res.json())
+        .then(data => {
+           
+            if (data.success) {
+              showSwal(`${data.message}`,'success')
+                document.getElementById('CategorieForm').reset();
+                document.querySelector('button[type="submit"]').textContent = 'Add Category';
+                id_categorie = null;
+                DisplayCategoriesData();
+            }else{
+              showSwal(`${data.message}`,'error')
+            }
+        });
+    }
+});
+
+ 
+
+  function UpdateCategory(id){
+    fetch(`http://localhost:9000/GetCategoryById/${id}`,{
+    })
+    .then(res => res.json())
+    .then(data =>{
+
+      if(data.success){
+        const category = data.data;
+      const name = document.getElementById('name').value = category.name;
+      const description = document.getElementById('description').value = category.description;
+      document.querySelector('button[type="submit"]').textContent = 'Update Category';
+       id_categorie = id;
+
+      }else{
+        alert(data.message);
+      }
+
+    
+    })
+  }
+
+
+  function DeleteCategory(id) {
+  //console.log("DeleteProduct called with ID:", id);
+  console.log("id:",id);
+  fetch(`http://localhost:9000/DeleteCategory`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ id })
+  })
+ 
+  .then(response => response.json())
+  .then(data => {
+    console.log("Delete response:", data);
+
+  
+    if (data.success) {
+      showSwal(`${data.message}`,'success')
+      // بعد الحذف، قم بتحديث قائمة المنتجات باستخدام DisplayProductsData
+      DisplayCategoriesData(); 
+     
+      // تأكد من أنك تستخدم DisplayProductsData هنا
+    } else {
+      showSwal(`${data.message}`,'error')
+    }
+  })
+  .catch(error => {
+    console.error("Error deleting category:", error);
+  });
+}
+
+
+function showSwal(message, iconType) {
+    Swal.fire({
+        icon: iconType, 
+        title: iconType === 'success' ? 'Success' : 'Error',
+        text: message,
+        timer: 7000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+        position: 'top-center',
+    });
+}
+    
+    window.onload = DisplayCategoriesData;
+    DisplayCategoriesData();
+
+
+    
+  </script>
 </body>
 </html>

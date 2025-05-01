@@ -19,6 +19,13 @@ const GetProductById = require('./routes/Get_product_by_id_route');
 const UpdateProduct = require('./routes/UpdateProduct');
 const GetAllUsers = require('./routes/GetAllUsersRoute');
 const DeleteUser = require('./routes/DeleteUserRoute');
+const getAllCategories = require('./routes/GetCategoriesRoute');
+const addCategory = require('./routes/AddGategoryRoute');
+const GetCategoryById = require('./routes/GetCategoryByIdRoute');
+const UpdateCategory = require('./routes/UpdateCategory');
+const DeleteCategory = require('./routes/DeleteCategoryroute');
+const GetAllOrders = require('./routes/GetAllOrdersroute');
+const UpdateOrderStatus = require('./routes/UpdateOrderStatus');
 const port = 9000;
 
 const storage = multer.diskStorage({
@@ -51,6 +58,14 @@ app.post('/upload', upload.single('img_product'), (req, res) => {
     }
   });
 
+
+  app.use(session({
+    secret: 'your_secret_key',  // اختر مفتاح سري للحفاظ على أمان الجلسات
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }   // تأكد من استخدام secure: true في بيئة الإنتاج مع HTTPS
+}));
+
   
 
 
@@ -72,6 +87,13 @@ app.use(GetProductById);
 app.use(UpdateProduct);
 app.use(GetAllUsers);
 app.use(DeleteUser);
+app.use(getAllCategories);
+app.use(addCategory);
+app.use(GetCategoryById);
+app.use(UpdateCategory);
+app.use(DeleteCategory);
+app.use(GetAllOrders);
+app.use(UpdateOrderStatus);
 app.use('/slide', express.static(path.join(__dirname, 'public', 'slide')));
 app.use('/slide', express.static('public/slide'));
 
@@ -82,9 +104,18 @@ app.get('/admin',(req,res) =>{
     res.sendFile(path.join(__dirname, 'public', 'admin_page.html'));
 })
 
+
+app.get('/cart',(req,res) =>{
+  res.sendFile(path.join(__dirname, 'public', 'CartItems.html'));
+})
+
+
+
 app.get('/users',(req,res) =>{
   res.sendFile(path.join(__dirname,'public','UserManagement.html'))
 })
+
+
 
 
 app.listen(port, () =>{

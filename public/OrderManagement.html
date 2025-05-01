@@ -42,27 +42,80 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>101</td>
-            <td>2025-04-20</td>
-            <td>
-             
-                <select>
-                  <option>Pending</option>
-                  <option>Delivered</option>
-                  <option>Cancelled</option>
-                </select>
-            
-            </td>
-            <td>$120.00</td>
-            <td>PayPal</td>
-            <td>25/03/2025</td>
-            <td>20</td>
-            <td>30/03/2025</td>
-            <td>1</td>
-          </tr>
+         
         
         </tbody>
       </table>
+
+
+      <script>
+        fetch('http://localhost:9000/GetAllOrders') // غيّر هذا الرابط حسب سيرفرك
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    const orders = result.data;
+                    const tbody = document.querySelector("tbody");
+                    tbody.innerHTML = ""; // تنظيف الجدول أولاً
+    
+                    orders.forEach(order => {
+                        const row = document.createElement("tr");
+                        row.innerHTML = `
+                            <td>${order.id_order}</td>
+                            <td>${order.order_date}</td>
+                            <td>
+                                <select  onchange="updateStatus(${order.id_order}, this)">
+                                    <option ${order.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                                    <option ${order.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
+                                    <option ${order.status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
+                                </select>
+                            </td>
+                            <td>${order.total_price}</td>
+                            <td>${order.payment_method}</td>
+                            <td>${order.payment_date}</td>
+                            <td>${order.total_amount}</td>
+                            <td>${order.facture_date}</td>
+                            <td>${order.id_user}</td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                } else {
+                    alert("error fetched orders");
+                }
+            })
+            .catch(error => {
+                console.error("error to get data", error);
+            });
+
+
+
+
+            
+    function updateStatus(id, selectElement) {
+        const selectedStatus = selectElement.value;
+
+        fetch('http://localhost:9000/UpdateOrderStatus', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id: id,
+                status: selectedStatus
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            alert(data.message);
+        })
+        .catch(err => {
+            console.error("خطأ في تحديث الحالة:", err);
+        });
+    }
+
+
+    </script>
+    
+    
+
 </body>
 </html>

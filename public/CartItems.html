@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="./CartStyle.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     
@@ -167,7 +168,8 @@
                 totalPrice += item.price * item.quantity;
             });
 
-            let totalAmount = document.getElementById('totalAmount').value;
+            let totalAmount = parseFloat(document.getElementById('totalAmount').textContent);
+
             let paymentMethode = document.getElementById('paymentMethode').value;
 
             let dataOrder = {
@@ -185,11 +187,11 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    alert(data.message);
+                   showSwal(`${data.message}`,`success`);
                    
                     DisplayCart();
                 } else {
-                    alert(data.message);
+                    showSwal(`${data.message}`,`error`);
                 }
             })
             .catch(error => console.error('Error adding order:', error));
@@ -204,9 +206,9 @@
             .then(response => response.json())
             .then(data =>{
                 if(data.success){
-                    alert(data.message);
+                    return showSwal(`${data.message}`,'success');
                 }else{
-                    alert(data.message);
+                     return showSwal(`${data.message}`,'error');
                 }
 
             })
@@ -225,7 +227,23 @@
         function clearCart() {
             localStorage.removeItem('cart');
             DisplayCart();
+            showSwal('cart deleted successfuly','success');
         }
+
+
+
+
+        function showSwal(message, iconType) {
+    Swal.fire({
+        icon: iconType, // success or error
+        title: iconType === 'success' ? 'Success' : 'Error',
+        text: message,
+        timer: 7000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+        position: 'top',
+    });
+}
 
         window.onload = DisplayCart;  
 
