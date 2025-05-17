@@ -1,0 +1,72 @@
+
+body{
+   background-color: #eeebeb;
+ 
+}
+.container{
+    display: flex;
+    justify-content: space-around;
+    height: 1200px;
+  
+}
+.box1 h3{
+    background-color: white;
+    padding: 10px 10px;
+ 
+   
+
+}
+.box1{
+   
+    background-color: white;
+    margin-top: 30px;
+    margin-left: -40px;
+    width: 70%;
+    padding: 10px 30px;
+    height: 720px;
+
+}   
+.box1 input{
+    width: 40%;
+    height: 10%;
+}
+.box1 .address input{
+    width: 40%;
+    height: 50%;
+
+}
+.form{
+    display: flex ;
+    gap: 160px;
+}
+.form input{
+    width: 160% !important;
+    height: 50px;
+}
+
+.cvv input{
+    width: 98% !important;
+    height: 50px;
+}
+.box1 h6{
+    color: rgb(0, 128, 100);
+    margin-top: 20px;
+}
+.box1 img{
+    width: 20px;
+   
+}
+.box2{
+    background-color: white;
+    margin-top: 30px;
+    width: 30%;
+}
+.box2 h4{
+    text-align: center;
+}
+.box2{
+    padding: 15px 50px;
+    height: 30%;
+   
+
+}

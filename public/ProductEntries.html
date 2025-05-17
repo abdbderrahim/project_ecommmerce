@@ -6,7 +6,17 @@
     <title>Document</title>
     <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    <link rel="stylesheet" href="ProductEntries.css">
+    <link rel="stylesheet" href="UserManagement.css">
+    <!-- Toastify CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+<!-- Toastify JS -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+<!-- SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
 </head>
 <body>
     <div class="containerr">
@@ -23,46 +33,203 @@
         </div>
             
 
-       <div class="form">
-         <h1 class="title">Product Entry Management</h1>
+       <div class="form" id="entreProductForm">
+         <h1 class="title">User Management</h1>
         <form action="">
 
-          
-
-            <label for="">Quantity</label>
-            <input type="number" name="" id="" required>
+            
+            <label for="">quantity</label>
+            <input type="number" name="" id="quantity" required>
 
             <label for="">ID Product</label>
-            <input type="number" name="" id="" required>
+            <input type="number" name="" id="id_product" required>
 
-            <label for="">ID User</label>
-            <input type="number" name="" id="" required>
+        
+           
 
-            <button type="submit" class="btn btn-primary">Add Entry</button>
+            <button type="submit" class="btn btn-primary">Add Entre Product</button>
         </form>
        </div>
     </div>
     <h2>Existing Products</h2>
-  <table>
+  <table class="table table-bordered table-hover mt-3">
     <thead>
       <tr>
-        <th>ID</th><th>Quantity</th><th>Entry Date</th><th>ID Product</th><th>ID User</th><th>Actions</th>
+        <th>ID Entre</th>
+        <th>Quantity</th>
+      
+        <th>Entry date</th>
+       
+        <th>ID Product</th>
+        <th>ID User</th>
+        <th>Action</th>
+       
       </tr>
     </thead>
     <tbody>
       
-      <tr>
-        <td>1</td>
-        <td>Tomato</td>
-        <td>2.99</td>
-        <td>100</td>
-        <td>1</td>
-        <td class="action-buttons">
-          <button>Edit</button>
-          <button class="delete">Delete</button>
-        </td>
-      </tr>
+     
     </tbody>
   </table>
+
+
+  <script>
+     window.onload = DisplayEntreProductData;
+
+     let id_entre = null;
+
+    
+   function DisplayEntreProductData(){
+    fetch('http://localhost:9000/GetAllEntreProduct',)
+    .then(res => res.json())
+    .then(data =>{
+
+      const tbody = document.querySelector('tbody');
+      tbody.innerHTML = '';
+      data.data.forEach(item =>{
+        const tr = document.createElement('tr');
+
+        tr.innerHTML = `
+
+         <td>${item.id_entre}</td>
+          <td>${item.quantity}</td>
+          <td>${item.entry_date}</td>
+          <td>${item.id_product}</td>
+          <td>${item.id_user}</td>
+
+           <td>
+            <button class="btn btn-danger btn-sm" onclick="deleteEntreProduct(${item.id_entre})">
+              <i class="fa fa-trash"></i>
+            </button>
+
+
+             <button class="btn btn-danger btn-sm" onclick="UpdateProduct(${item.id_entre})">
+            Update
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      })
+    })
+    if(data.result.success){
+      DisplayEntreProductData();
+
+    }else{
+      alert(data.result.message);
+    }
+
+
+   }
+
+  
+ 
+    document.getElementById('entreProductForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const quantity = document.getElementById('quantity').value;
+      const id_product = document.getElementById('id_product').value;
+
+      if(id_entre === null){
+
+
+        fetch('http://localhost:9000/AddEntreProduct', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ quantity, id_product })
+      })
+
+    .then(response => response.json() )
+    .then(data =>{
+      console.log(data);
+      if(data.success){
+        console.log('data recived: ',data);
+        showSwal(`${data.message}`,'success');
+      }else{
+        showSwal(`${data.message}`,'error');
+      }
+    })
+     
+
+      }else{
+
+        const quantity = document.getElementById('quantity').value;
+        const id_product = document.getElementById('id_product').value;
+        fetch('http://localhost:9000/UpdateEntreProduct', {
+          method: 'post',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ id: id_entre,quantity, id_product })
+
+      })
+      .then(res => res.json())
+      .then(data =>{
+       if(data.success){
+        showSwal(`${data.message}`,'success');
+       }else{
+        showSwal(`${data.message}`,'error');
+
+       }
+      })
+
+      }
+   
+    });
+  
+
+
+
+
+    function deleteEntreProduct(id) {
+  fetch(`http://localhost:9000/DeleteEntreProduct/${id}`, {
+    method: 'DELETE'
+  })
+  .then(res => res.json())
+  .then(data => {
+   if(data.success){
+    showSwal(`${data.message}`,'success');
+   }else{
+    showSwal(`${data.message}`,'error');
+   }
+    DisplayEntreProductData();
+  });
+}
+
+
+
+function UpdateProduct(id){
+  fetch(`http://localhost:9000/GetEntreProduct/${id}`)
+  .then(res => res.json())
+  .then(data =>{
+    if(data.success){
+      const product = data.data[0];
+      document.getElementById('quantity').value = product.quantity;
+      document.getElementById('id_product').value = product.id_product;
+      document.querySelector('button[type="submit"]').textContent = 'Update Entre Product';
+      id_entre = product.id_entre;
+    }else{
+      alert(data.message);
+    }
+  })
+
+}
+
+
+
+function showSwal(message, iconType) {
+    Swal.fire({
+        icon: iconType, // success or error
+        title: iconType === 'success' ? 'Success' : 'Error',
+        text: message,
+        timer: 7000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+        position: 'top',
+    });
+}
+
+  </script>
 </body>
 </html>

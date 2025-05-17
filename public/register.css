@@ -2,11 +2,11 @@
 
 
 .container1{
-    margin-left: 28% !important;
+   margin-left: 28% !important;
     margin-top: 5% !important;
     padding: 3% 2% !important;
     width: 50% !important;
-    border: 1px solid black ;
+   box-shadow: 1px 1px 15px rgba(0,0,0,0.2);
     border-radius: 10px ;
    
 }
@@ -20,3 +20,8 @@ input{
     border-radius: 20px !important;
 }
 
+
+.container1 h3{
+    font-size: 2.5rem !important;
+    text-align: center;
+}

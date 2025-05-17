@@ -26,14 +26,23 @@ const UpdateCategory = require('./routes/UpdateCategory');
 const DeleteCategory = require('./routes/DeleteCategoryroute');
 const GetAllOrders = require('./routes/GetAllOrdersroute');
 const UpdateOrderStatus = require('./routes/UpdateOrderStatus');
+const EntreProduct = require('./routes/AddEntreProductRoute');
+const GetAllEntreProduct = require('./routes/GetAllEntreProductRoute');
+const DeleteEntreProduct = require('./routes/DeleteEntreProduct');
+const GetEntreProductById = require('./routes/GetEntreProducrRoute');
+const UpdateEntreProduct = require('./routes/UpdateEntreProductRoute');
+const AddOrderAndDelivery = require('./routes/AddOrderAndDelivery');
+const GetDeliveryData = require('./routes/GetDeliveyData');
+const UpdateDelivery = require('./routes/UpdateDelivery');
 const port = 9000;
+
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, 'public/slide'); // specify folder to save uploaded files
+      cb(null, 'public/slide'); 
     },
     filename: (req, file, cb) => {
-      cb(null, Date.now() + path.extname    (file.originalname)); // use the original file extension
+      cb(null, Date.now() + path.extname    (file.originalname)); 
     }
   });
 
@@ -60,10 +69,10 @@ app.post('/upload', upload.single('img_product'), (req, res) => {
 
 
   app.use(session({
-    secret: 'your_secret_key',  // اختر مفتاح سري للحفاظ على أمان الجلسات
+    secret: 'your_secret_key',  
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false }   // تأكد من استخدام secure: true في بيئة الإنتاج مع HTTPS
+    cookie: { secure: false }   
 }));
 
   
@@ -94,6 +103,15 @@ app.use(UpdateCategory);
 app.use(DeleteCategory);
 app.use(GetAllOrders);
 app.use(UpdateOrderStatus);
+app.use(EntreProduct);
+app.use(GetAllEntreProduct);
+app.use(DeleteEntreProduct);
+app.use(GetEntreProductById);
+app.use(UpdateEntreProduct);
+app.use(AddOrderAndDelivery);
+app.use(GetDeliveryData);
+app.use(UpdateDelivery);
+
 app.use('/slide', express.static(path.join(__dirname, 'public', 'slide')));
 app.use('/slide', express.static('public/slide'));
 
@@ -114,6 +132,20 @@ app.get('/cart',(req,res) =>{
 app.get('/users',(req,res) =>{
   res.sendFile(path.join(__dirname,'public','UserManagement.html'))
 })
+
+app.get('/card',(req,res) =>{
+  res.sendFile(path.join(__dirname,'public','DataCard.html'))
+})
+
+app.get('/checkout',(req,res) =>{
+  res.sendFile(path.join(__dirname,'public','Checkout.html'))
+})
+
+
+app.get('/delivery',(req,res) =>{
+  res.sendFile(path.join(__dirname,'public','DeliveryManagement.html'))
+})
+
 
 
 

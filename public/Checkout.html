@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="CheckouStyle.css">
+   
+</head>
+<body>
+
+    <div class="first">
+        <div class="box1">
+            <h3>Shipping address</h3>
+        </div>
+        <div class="box2">
+            <h3>Payment Methods</h3>
+           <i class="fa-solid fa-credit-card"></i><label for="">Add a new card</label>
+           <br>
+           <br>
+           <input type="checkbox" class="payment-method" name="" id="" value="VISA"><label for="">VISA</label>
+           <br>
+           <br>
+           <input type="checkbox" class="payment-method" name="" id="" value="PayPal"><label for="">PayPal</label>
+           <br>
+           <br>
+           <input type="checkbox" class="payment-method" name="" id="" value="MasterCard"><label for="">MasterCard</label>
+        </div>
+        <div class="box3">
+            <h2> <i class="fa-solid fa-shield-halved"></i>FR-Shop</h2>
+            <h4>  FR-Shop keeps your information and payment safe</h4>
+        </div>
+        <div class="images">
+            <img src="slide/visa.webp" alt="">
+            <img src="slide/card.webp" alt="">
+            <img src="slide/paypal.webp" alt="">
+            <img src="slide/usa.webp" alt="">
+
+        </div>
+    </div>
+
+    <button class="btn btn-primary">Confirm</button>
+
+
+    <div class="theard">
+
+        <script>
+            // Get all checkboxes with class 'payment-method'
+            const paymentCheckboxes = document.querySelectorAll('.payment-method');
+        
+            paymentCheckboxes.forEach((checkbox) => {
+                checkbox.addEventListener('change', () => {
+                    // Uncheck all others (make only one selectable)
+                    paymentCheckboxes.forEach(cb => cb !== checkbox && (cb.checked = false));
+        
+                    if (checkbox.checked) {
+                        // Store selected payment method in localStorage
+                        localStorage.setItem('selectedPaymentMethod', checkbox.value);
+                        console.log('Saved:', checkbox.value);
+                        window.location.href = 'DataCard.html';
+                    
+                    } else {
+                        localStorage.removeItem('selectedPaymentMethod');
+                    }
+                });
+            });
+        </script>
+        
+
+        
+       
+   
+</div>
+</body>
+</html>

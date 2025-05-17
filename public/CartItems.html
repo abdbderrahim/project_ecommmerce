@@ -96,7 +96,7 @@
          
    
 
-    <button type="submit"  id="btnOrder" class="btn btn-danger" onclick="placeOrder()"> <i class="fa-solid fa-circle-check"></i>&nbsp &nbspPlace Order</button>
+    <button type="submit"  id="btnOrder" class="btn btn-danger" > <i class="fa-solid fa-circle-check"></i><a href="Checkout.html">Checkout</a></button>
         </div>
         <div class="paraOrder">
            <p></p>
@@ -235,7 +235,7 @@
 
         function showSwal(message, iconType) {
     Swal.fire({
-        icon: iconType, // success or error
+        icon: iconType, 
         title: iconType === 'success' ? 'Success' : 'Error',
         text: message,
         timer: 7000,

@@ -1,0 +1,66 @@
+body{
+    background-color: #e6e3e3; 
+}
+
+.first{
+  
+    margin-left: 20px;
+    margin-top: 30px;
+    width: 80%;
+  
+   
+}
+.box1{
+    background-color: white;
+    height: 90px;
+    padding: 2px 20px;
+}
+.box2{
+    background-color: white;
+    height: 220px;
+    padding: 2px 20px;
+    margin-top: 20px;
+}
+.box3{
+    background-color: white;
+    height: 100px;
+    padding: 2px 20px;
+    margin-top: 20px;
+}
+.box2 i{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+ input{
+  width: 30px;
+  border-radius: 20px;
+   
+   
+}
+
+
+.images{
+   
+    background-color: white;
+    padding-bottom: 20px;
+   
+   
+
+}
+.images img{
+    width: 40px;
+    margin-left: 20px;
+}
+button{
+ height: 35px;
+ width: 90px;
+  margin: 20px 20px;
+  font-size: 16px;
+  background-color: rgb(36, 36, 219);
+  border: none;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+

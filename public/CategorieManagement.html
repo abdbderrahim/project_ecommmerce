@@ -98,7 +98,7 @@ document.getElementById('CategorieForm').addEventListener('submit', function(e) 
     const name = document.getElementById('name').value;
     const description = document.getElementById('description').value;
 
-    // الحالة 1: إضافة فئة جديدة
+    
     if (id_categorie === null) {
         fetch('http://localhost:9000/AddCategory', {
             method: 'POST',
@@ -122,7 +122,7 @@ document.getElementById('CategorieForm').addEventListener('submit', function(e) 
         });
     } 
     
-    // الحالة 2: تحديث فئة موجودة
+    
     else {
         fetch(`http://localhost:9000/UpdateCategory/${id_categorie}`, {
             method: 'PUT',
@@ -189,10 +189,10 @@ document.getElementById('CategorieForm').addEventListener('submit', function(e) 
   
     if (data.success) {
       showSwal(`${data.message}`,'success')
-      // بعد الحذف، قم بتحديث قائمة المنتجات باستخدام DisplayProductsData
+      
       DisplayCategoriesData(); 
      
-      // تأكد من أنك تستخدم DisplayProductsData هنا
+      
     } else {
       showSwal(`${data.message}`,'error')
     }

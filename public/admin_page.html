@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="stylesheet" href="admin.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <div class="containerr">
@@ -91,16 +92,18 @@ document.getElementById('product-form').addEventListener('submit', function (e) 
     })
     .then(response => response.json())
     .then(data => {
-      alert(data.message);
+    
       if (data.success) {
+        showSwal(`${data.message}`,'success');
         form.reset();
         DisplayProductsData();
+      }else{
+        showSwal(`${data.message}`,'error');
       }
     });
 
   } else {
-    // 🛠️ تحديث منتج موجود
-    formData.append('id_product', ID_Product); // نرسل ID المنتج مع البيانات
+    formData.append('id_product', ID_Product); 
 
     fetch('http://localhost:9000/UpdateProduct', {
       method: 'POST',
@@ -108,12 +111,15 @@ document.getElementById('product-form').addEventListener('submit', function (e) 
     })
     .then(response => response.json())
     .then(data => {
-      alert(data.message);
+    
       if (data.success) {
         form.reset();
-        ID_Product = null; // نرجع المتغير للقيمة الأصلية
+        ID_Product = null; 
         document.querySelector('button[type="submit"]').textContent = 'Add Product';
         DisplayProductsData();
+        showSwal(`${data.message}`,'success');
+      }else{
+        showSwal(`${data.message}`,'error');
       }
     });
   }
@@ -152,9 +158,9 @@ document.getElementById('product-form').addEventListener('submit', function (e) 
           `;
           tbody.appendChild(row);
         });
-        alert(data.message);
+       
       } else {
-        alert("No products found.");
+        showSwal('no peoducts found','error');
       }
     })
     .catch(error => {
@@ -183,15 +189,13 @@ function DeleteProduct(id) {
   .then(data => {
     console.log("Delete response:", data);
     if (data.success) {
-      alert(data.message);
-      // بعد الحذف، قم بتحديث قائمة المنتجات باستخدام DisplayProductsData
+      showSwal(`${data.message}`,'success');
       DisplayProductsData(); 
       window.onload;
       
      
-      // تأكد من أنك تستخدم DisplayProductsData هنا
     } else {
-      alert(data.message);
+      showSwal(`${data.message}`,'error');
     }
   })
   .catch(error => {
@@ -243,6 +247,21 @@ const formData = new FormData(form);
     }
   });
 });*/
+
+
+
+
+function showSwal(message, iconType) {
+    Swal.fire({
+        icon: iconType, // success or error
+        title: iconType === 'success' ? 'Success' : 'Error',
+        text: message,
+        timer: 7000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+        position: 'top',
+    });
+}
 window.onload = DisplayProductsData;
 DisplayProductsData();
 

@@ -15,14 +15,14 @@
 
 
   
-<div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true" >
+<div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true" wi >
   <div class="modal-dialog modal-lg" >
-      <div class="modal-content" >
+      <div class="modal-content"  >
           <div class="modal-header "   >
               <h5 class="modal-title" id="signupModalLabel"></h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
           </div>
-          <div class="modal-body" style="padding: 0%; ">
+          <div class="modal-body" style=" width: 100%; ">
               <iframe src="register.html" style="width: 100%; height: 700px; "></iframe>
           </div>
       </div>
@@ -61,7 +61,7 @@
         <nav class="navbar">
             <ul id="sidebarr" class="sidebar">
                 <li onclick="closesidebar()"><a href="javascript:void(0)"><i class="fa-solid fa-xmark"></i></a></li>
-                <li><a href="#"> <i class="fa-solid fa-house"></i> Home</a></li>
+                <li><a href="indexx.html"> <i class="fa-solid fa-house"></i> Home</a></li>
                 <li><a href="#"><i class="fa-solid fa-list"></i> Categories</a></li>
                 <li><a href="#"><i class="fa-solid fa-right-to-bracket"></i> Sign In</a></li>
                 <li><a href="#" data-bs-toggle="modal" data-bs-target="#signupModal"><i class="fa-solid fa-user-plus"></i> Sign Up</a></li>
@@ -96,13 +96,13 @@
         </div>
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <img src="slide/img1.jpg" class="d-block w-100" alt="...">
+            <img src="slide/Summer Sale Shop Etsy Cover Banner.jpg" class="d-block w-100" alt="...">
           </div>
           <div class="carousel-item">
-            <img src="slide/img2.jpg" class="d-block w-100" alt="">
+            <img src="slide/Summer1.jpg" class="d-block w-100" alt="">
           </div>
           <div class="carousel-item">
-            <img src="slide/img3.jpg" class="d-block w-100" alt="...">
+            <img src="slide/Summer4.jpg" class="d-block w-100" alt="...">
           </div>
         </div>
         
@@ -136,49 +136,45 @@
 
 
 
-          <div class="backimg" class="container">
-            <div class="row">
-              <div class="col">
-                <img src="slide/Categoriesbackground.gif" alt="">
-              </div>
-            </div>
-          </div>
-         
-          
+        
           
           
              
 
       
 
-     <div class="container1 container ">
+     <div class="container1  ">
       <div class="row">
         <div class="col">
           <img src="slide\Black and White Minimalism Fashion Influencer Instagram Post Set.jpg" class="img-fluid" alt="...">
-          <h3>women</h3>
+        
         </div>
 
         <div class="col">
           
           <img src="slide\Baby Photo Frame Retractable Banner in Soft Peach in Organic Style.jpg" class="img-fluid" alt="...">
-          <h3>children</h3>
+        
         </div>
        
 
+       
+
         <div class="col">
-          <img src="slide/White and Blue Clean New Release Smartphone Instagram Post.jpg" class="img-fluid" alt="...">
-          <h3>electronics</h3>
+          <img src="slide\Green Simple Photocentric Fashion Product Introduction Instagram Post.jpg" class="img-fluid h-35" alt="...">
+         
         </div>
 
         <div class="col">
           <img src="slide\Green Simple Photocentric Fashion Product Introduction Instagram Post.jpg" class="img-fluid h-35" alt="...">
-          <h3>men</h3>
+         
         </div>
 
         <div class="col">
-          <img src="slide/White Modern Interior Design Photo Collage.jpg" class="img-fluid" alt="...">
-          <h3>home</h3>
+          <img src="slide\Green Simple Photocentric Fashion Product Introduction Instagram Post.jpg" class="img-fluid h-35" alt="...">
+        
         </div>
+
+       
         
       </div>
      </div>
@@ -193,7 +189,7 @@
           <i class="fa-brands fa-google"></i>
           <i class="fa-brands fa-instagram"></i>
           <i class="fa-brands fa-whatsapp"></i>
-          <i class="fa-brands fa-tiktok"></i>
+          
         </div>
       </div>
       <div class="containerpara">
@@ -274,14 +270,18 @@
                     .replace(/'/g, '') 
                     .replace(/\\/g, '/');
             let productCard = `
-                <div class="col-sm-6 col-md-4 col-lg-3 mb-2">
-                    <div class="card" style="width: 100%;" style="height: 50%;">
-                        <img src="${imagePath}" class="card-img-top" alt="${product.name}" style="height: 60%;">
+                <div class="col-sm-2 col-md-4 col-lg-3 mb-2">
+                    <div class="card" style="width: 100%;" style="height: 100%;">
+                        <img src="${imagePath}" class="card-img-top" alt="${product.name}" style="height: 60%; marg">
                         <div class="card-body">
                             <h5 class="card-title">${product.name}</h5>
                             <p class="card-text">${product.description}</p>
+                            <div id="star">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                              </div>
+                             
                             <p class="card-text"><strong>Price:</strong> ${product.price}$</p>
-                             <button class="btn btn-primary" onclick="addToCart('${product.id_product}', '${product.name}', ${product.price}, '${imagePath}')">Add to Cart</button>
+                             <button class="btn btn-primary" onclick="addToCart('${product.id_product}', '${product.name}', ${product.price}, '${imagePath}')"><i class="fa-solid fa-cart-plus"></i></button>
 
                         </div>
                     </div>
@@ -307,7 +307,7 @@
             if (data.id_order) {
                 localStorage.setItem('id_order', data.id_order);
                 
-                // قم بإضافة المنتج للسلة بعد إنشاء الطلب
+             
                 addItemToCart(data.id_order, idProduct,productName, productPrice, productImg);
             }
         })
@@ -348,7 +348,7 @@ fetch('http://localhost:9000/AddCartItem',{
 .then(data => {
   console.log("response:" ,data);
   if(data.success){
-    console.log("Product added to cart" + data.message);
+   showSwal(`${data.message}`,)
   }else{
     console.log("Error creating cart item" + data.message);
   }
@@ -356,6 +356,19 @@ fetch('http://localhost:9000/AddCartItem',{
 .catch(error => console.error('Error adding product to cart:', error));
 }
 
+
+function showSwal(message, iconType) {
+    Swal.fire({
+
+        icon: iconType, 
+        title: iconType === 'success' ? 'Success' : 'Error',
+        text: message,
+        timer: 7000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+        position: 'top',
+    });
+}
 
 
 
