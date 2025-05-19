@@ -9,6 +9,25 @@
     
     <link rel="stylesheet" href="register.html">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <script src="https://unpkg.com/i18next@21.6.3/dist/umd/i18next.min.js"></script>
+    <style>
+      /* Hide the top banner */
+      .goog-te-banner-frame.skiptranslate {
+        display: none !important;
+      }
+    
+      /* Remove spacing caused by the banner */
+      body {
+        top: 0px !important;
+        position: relative;
+      }
+    
+      /* Optional: Hide full-page overlay */
+      .goog-te-spinner-pos {
+        display: none !important;
+      }
+    </style>
+    
 </head>
 <body>
 
@@ -54,8 +73,8 @@
         <div class="logo">
         <img src="slide/logo.jpg" alt="">
             <div class="search-box">
-                <input type="search" id="inp_search" placeholder="Search...">
-                <button type="submit" id="btn_search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <input type="search" id="inp_search" placeholder="Search..." onkeyup="searchProducts()">
+                <button type="submit" id="btn_search" ><i class="fa-solid fa-magnifying-glass"></i></button>
             </div>
         </div>
         <nav class="navbar">
@@ -115,6 +134,9 @@
           <span class="visually-hidden">Next</span>
         </button>
       </div>
+
+
+      <div id="google_translate_element"></div>
 
 
       <div class="container">
@@ -226,6 +248,57 @@
 
 
 
+function searchProducts() {
+    const query = document.getElementById('inp_search').value;
+
+    fetch(`http://localhost:9000/search?name=${encodeURIComponent(query)}`)
+        .then(response => response.json())
+        .then(products => {
+            const productsContainer = document.getElementById('products-list');
+            productsContainer.innerHTML = ''; // تفريغ المحتوى السابق
+
+            if (products.length === 0) {
+                productsContainer.innerHTML = '<p>لا توجد منتجات مطابقة.</p>';
+                return;
+            }
+
+            products.forEach(product => {
+                const imagePath = product.img_product
+                    .replace(/'/g, '')
+                    .replace(/\\/g, '/');
+
+                let productCard = `
+                    <div class="col-sm-2 col-md-4 col-lg-3 mb-2">
+                        <div class="card" style="width: 100%; height: 100%;">
+                            <img src="${imagePath}" class="card-img-top" alt="${product.name}" style="height: 60%; marg">
+                            <div class="card-body">
+                                <h5 class="card-title">${product.name}</h5>
+                                <p class="card-text">${product.description}</p>
+                                <div id="star">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star-half-stroke"></i>
+                                </div>
+                                <p class="card-text"><strong>السعر:</strong> ${product.price}$</p>
+                                <button class="btn btn-primary" onclick="addToCart('${product.id_product}', '${product.name}', ${product.price}, '${imagePath}')">
+                                    <i class="fa-solid fa-cart-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                productsContainer.innerHTML += productCard;
+            });
+        })
+        .catch(error => {
+            console.error('خطأ في جلب المنتجات:', error);
+        });
+}
+
+
+
+
 
 
 
@@ -246,15 +319,64 @@
           const a = document.createElement('a');
           a.href = '#';
           a.textContent = category.name;
+          a.addEventListener('click',() => GetProductsByCategory(category.id_categorie));
           li.appendChild(a);
           dropdownMenu.appendChild(li);
         });
 
       })
 
+
+
+
       .catch(error =>{
         console.error('Error fetching categories:', error);
       })
+
+
+      function GetProductsByCategory(categoryId) {
+        console.log('idcategory:',categoryId);
+  fetch(`http://localhost:9000/GetProductsByCategory/${categoryId}`)
+    .then(response => response.json())
+    .then(products => {
+      const productsContainer = document.getElementById('products-list');
+      productsContainer.innerHTML = ''; // مسح المحتوى السابق
+
+      products.forEach(product => {
+        const imagePath = product.img_product
+          .replace(/'/g, '') 
+          .replace(/\\/g, '/');
+
+        let productCard = `
+          <div class="col-sm-2 col-md-4 col-lg-3 mb-2" >
+            <div class="card" style="width: 100%; height: 100%;">
+              <img src="${imagePath}" class="card-img-top" alt="${product.name}" style="height: 45%;">
+              <div class="card-body" style="height: 100px !important">
+                <h5 class="card-title">${product.name}</h5>
+                <p class="card-text">${product.description}</p>
+                <div id="star">
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-solid fa-star-half-stroke"></i>
+                </div>
+                <p class="card-text"><strong>Price:</strong> ${product.price}$</p>
+                <button class="btn btn-primary" onclick="addToCart('${product.id_product}', '${product.name}', ${product.price}, '${imagePath}')">
+                  <i class="fa-solid fa-cart-plus"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+
+        productsContainer.innerHTML += productCard;
+      });
+    })
+    .catch(error => {
+      console.error('Error loading products:', error);
+    });
+}
+
 
       fetch("http://localhost:9000/GetAllProducts")
     .then(response => response.json())
@@ -373,6 +495,13 @@ function showSwal(message, iconType) {
 
 
 
+function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'en,ar,fr',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
 
 
     
@@ -417,6 +546,6 @@ numbers.forEach(num => {
       
       
     <script src="index.js"></script>
-    
+    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>

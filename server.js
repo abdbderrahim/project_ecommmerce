@@ -34,6 +34,9 @@ const UpdateEntreProduct = require('./routes/UpdateEntreProductRoute');
 const AddOrderAndDelivery = require('./routes/AddOrderAndDelivery');
 const GetDeliveryData = require('./routes/GetDeliveyData');
 const UpdateDelivery = require('./routes/UpdateDelivery');
+const DeleteDelivery = require('./routes/DeleteDelivery');
+const GetPeoductsByCategory = require('./routes/GetProductsByCategoryRoute');
+const SearchProduct = require('./routes/SearchProductRoute');
 const port = 9000;
 
 
@@ -111,6 +114,9 @@ app.use(UpdateEntreProduct);
 app.use(AddOrderAndDelivery);
 app.use(GetDeliveryData);
 app.use(UpdateDelivery);
+app.use(DeleteDelivery);
+app.use(GetPeoductsByCategory);
+app.use(SearchProduct);
 
 app.use('/slide', express.static(path.join(__dirname, 'public', 'slide')));
 app.use('/slide', express.static('public/slide'));

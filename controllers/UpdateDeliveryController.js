@@ -4,10 +4,11 @@ const connection = require('../config/DB');
 
 
 exports.UpdateDelivery = (req,res) => {
-    const { delivery_status,expected_date,delivery_persone} = req.body;
+    const { delivery_status,expected_date,delivery_person} = req.body;
     const id = req.params.id;
+    console.log('data:', req.body);
     const sql = 'update deliveries set delivery_status = ?, expected_date = ?, delivery_person = ? where id_delivery = ?';
-    connection.query(sql,[delivery_status,expected_date,delivery_persone,id],(err,results) =>{
+    connection.query(sql,[delivery_status,expected_date,delivery_person,id],(err,results) =>{
         if(err){
             console.log(err);
            return res.status(500).json({success: false,message:'Error updating delivery'});

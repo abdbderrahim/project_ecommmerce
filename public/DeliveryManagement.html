@@ -66,6 +66,11 @@
 
   <!-- Script -->
   <script>
+    function formatDate(isoDate) {
+      if (!isoDate) return "";
+      return isoDate.split("T")[0]; // YYYY-MM-DD format
+    }
+
     function DisplayDeliveryData() {
       fetch('http://localhost:9000/GetDeliveryData')
         .then(res => res.json())
@@ -83,20 +88,17 @@
                   <option value="delivered" ${item.delivery_status === 'delivered' ? 'selected' : ''}>Delivered</option>
                 </select>
               </td>
-              <td>${item.delivery_address}</td>
-              <td>${item.delivery_date}</td>
+              <td>${item.delivery_address || ''}</td>
+              <td>${item.delivery_date ? formatDate(item.delivery_date) : ''}</td>
               <td>
-               <input type="date" class="form-control" style="width: 160px;" id="expected-${item.id_delivery}" value="${item.expected_date}">
-
+                <input type="date" class="form-control" style="width: 160px;" id="expected-${item.id_delivery}" value="${formatDate(item.expected_date)}">
               </td>
               <td>
                 <select class="form-select" id="persone-${item.id_delivery}" style="width: 140px;">
-
-  <option value="Ali" ${item.delivery_persone === 'Ali' ? 'selected' : ''}>Ali</option>
-  <option value="Ahmed" ${item.delivery_persone === 'Ahmed' ? 'selected' : ''}>Ahmed</option>
-  <option value="Fatima" ${item.delivery_persone === 'Fatima' ? 'selected' : ''}>Fatima</option>
-</select>
-
+                  <option value="Ali" ${item.delivery_person === 'Ali' ? 'selected' : ''}>Ali</option>
+                  <option value="Ahmed" ${item.delivery_person === 'Ahmed' ? 'selected' : ''}>Ahmed</option>
+                  <option value="Fatima" ${item.delivery_person === 'Fatima' ? 'selected' : ''}>Fatima</option>
+                </select>
               </td>
               <td>${item.id_order}</td>
               <td>${item.customer_first_name}</td>
@@ -106,6 +108,7 @@
               <td>${item.country}</td>
               <td>
                 <button class="btn btn-sm btn-success" onclick="updateDeliveryRow(${item.id_delivery})">Save</button>
+                <button class="btn btn-sm btn-warning" onclick="DeleteDelivery(${item.id_delivery})">Delete</button>
               </td>
             `;
             tbody.appendChild(row);
@@ -115,7 +118,7 @@
 
     function updateDeliveryRow(id_delivery) {
       const expected_date = document.getElementById(`expected-${id_delivery}`).value;
-      const delivery_persone = document.getElementById(`persone-${id_delivery}`).value;
+      const delivery_person = document.getElementById(`persone-${id_delivery}`).value;
       const delivery_status = document.getElementById(`status-${id_delivery}`).value;
 
       fetch(`http://localhost:9000/UpdateDelivery/${id_delivery}`, {
@@ -125,7 +128,7 @@
         },
         body: JSON.stringify({
           expected_date,
-          delivery_persone,
+          delivery_person,
           delivery_status
         })
       })
@@ -142,6 +145,35 @@
           console.error('Error:', error);
           Swal.fire('Error', 'Something went wrong', 'error');
         });
+    }
+
+    function DeleteDelivery(id_delivery){
+      Swal.fire({
+        title: 'Are you sure?',
+    text: "This delivery will be deleted!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: 'Yes, delete it!'
+      }).then((result) =>{
+        if(result.isConfirmed){
+          fetch(`http://localhost:9000/DeleteDelivery/${id_delivery}`, {
+            method: 'DELETE',
+          })
+
+          .then(res => res.json())
+          .then(data =>{
+            if(data.success){
+              Swal.fire('Deleted!', data.message, 'success');
+              DisplayDeliveryData();
+            }else{
+              Swal.fire('Error', data.message, 'error');
+            }
+          })
+        }
+      })
+      
     }
 
     // Load data on page load
