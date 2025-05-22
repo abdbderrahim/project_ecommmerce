@@ -3,8 +3,13 @@ const connect = require('../config/DB');
 
 
 exports.AddCartItem = (req,res) =>{
+
+  if(!req.session.user){
+    return res.status(401).json({success: false,message: 'must logged to add product to cart shopping'});
+  }
     const {quantity,id_product} = req.body;
     const id_user = req.session.user.id_user;
+   
     
 
  console.log('quantity:',quantity);

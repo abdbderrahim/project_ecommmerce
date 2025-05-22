@@ -82,8 +82,8 @@
                 <li onclick="closesidebar()"><a href="javascript:void(0)"><i class="fa-solid fa-xmark"></i></a></li>
                 <li><a href="indexx.html"> <i class="fa-solid fa-house"></i> Home</a></li>
                 <li><a href="#"><i class="fa-solid fa-list"></i> Categories</a></li>
-                <li><a href="#"><i class="fa-solid fa-right-to-bracket"></i> Sign In</a></li>
-                <li><a href="#" data-bs-toggle="modal" data-bs-target="#signupModal"><i class="fa-solid fa-user-plus"></i> Sign Up</a></li>
+                <li  class="login-item"><a href="#" ><i class="fa-solid fa-right-to-bracket"></i> Sign In</a></li>
+                <li class="signup-item"><a href="#" data-bs-toggle="modal" data-bs-target="#signupModal" ><i class="fa-solid fa-user-plus"></i> Sign Up</a></li>
 
 
 
@@ -98,8 +98,8 @@
                       
                     </ul>
                 </li>
-                <li class="hidenonMobile"><a href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Sign In</a></li>
-                <li class="hidenonMobile"><a href="#" data-bs-toggle="modal" data-bs-target="#signupModal">Sign Up</a></li>
+                <li  class="login-item"   class="hidenonMobile"><a href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Sign In</a></li>
+                <li class="signup-item" class="hidenonMobile"><a href="#" data-bs-toggle="modal" data-bs-target="#signupModal">Sign Up</a></li>
                 <li class="hidenonMobile"><a href="CartItems.html"><i class="fa-solid fa-cart-shopping"></i></a></li>
                 <li class="menu-btn" onclick="showsidebar()"><a href="javascript:void(0)"><i class="fa-solid fa-bars"></i></a></li>
             </ul>
@@ -397,13 +397,16 @@ function searchProducts() {
                         <img src="${imagePath}" class="card-img-top" alt="${product.name}" style="height: 60%; marg">
                         <div class="card-body">
                             <h5 class="card-title">${product.name}</h5>
-                            <p class="card-text">${product.description}</p>
+                            <p class="card-text">${product.description}<
+                              
+                              
+                              /p>
                             <div id="star">
                                 <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
                               </div>
                              
                             <p class="card-text"><strong>Price:</strong> ${product.price}$</p>
-                             <button class="btn btn-primary" onclick="addToCart('${product.id_product}', '${product.name}', ${product.price}, '${imagePath}')"><i class="fa-solid fa-cart-plus"></i></button>
+                             <button class="btn btn-primary"onclick="addToCart('${product.id_product}', '${product.name}', ${product.price}, '${imagePath}')"  ><i class="fa-solid fa-cart-plus"></i></button>
 
                         </div>
                     </div>
@@ -448,11 +451,13 @@ function addItemToCart(orderId, idProduct,productName, productPrice, productImg)
         existingItem.quantity += 1;  
     } else {
         cart.push({ id_product:idProduct,name: productName, price: productPrice, image: productImg, quantity: 1 });
+        
     }
-
     localStorage.setItem('cart', JSON.stringify(cart));  
 
-    alert("Product added to cart!");
+alert("Product added to cart!");
+
+  
 
    
 
@@ -464,15 +469,19 @@ fetch('http://localhost:9000/AddCartItem',{
     quantity: 1,
     id_product: idProduct,
     id_order: orderId
-  })
+  }),
+  credentials: 'include'
 })
 .then(response => response.json())
 .then(data => {
   console.log("response:" ,data);
   if(data.success){
+    
    showSwal(`${data.message}`,)
+   
+  
   }else{
-    console.log("Error creating cart item" + data.message);
+    alert(data.message);
   }
 })
 .catch(error => console.error('Error adding product to cart:', error));
@@ -502,6 +511,113 @@ function googleTranslateElementInit() {
         layout: google.translate.TranslateElement.InlineLayout.SIMPLE
       }, 'google_translate_element');
     }
+
+
+
+    /*document.addEventListener("DOMContentLoaded", function () {
+  const isLoggedIn = localStorage.getItem('loggedIn');
+
+  if (isLoggedIn === 'true') {
+    // إخفاء كل عناصر Sign in و Sign up
+    document.querySelectorAll('.login-item').forEach(el => el.style.display = 'none');
+    document.querySelectorAll('.signup-item').forEach(el => el.style.display = 'none');
+
+    // إضافة زر logout لكل قائمة فيها navbar أو sidebar أو mobile menu
+    const navLists = document.querySelectorAll('.navbar ul, .sidebar ul, .hiddenmobile ul');
+
+    navLists.forEach(nav => {
+      if (!nav.querySelector('#logout-item')) {
+        const logoutLi = document.createElement('li');
+        logoutLi.id = 'logout-item';
+        logoutLi.innerHTML = '<a href="#" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>';
+        nav.appendChild(logoutLi);
+      }
+    });
+
+    // ربط زر الخروج
+    document.addEventListener('click', function (e) {
+      if (e.target.id === 'logoutBtn' || e.target.closest('#logoutBtn')) {
+        localStorage.removeItem('loggedIn');
+        location.reload();
+      }
+    });
+  } else {
+    // تعطيل زر محمي إن لم يكن المستخدم مسجلاً
+    const restrictedButton = document.getElementById('myButton');
+    if (restrictedButton) {
+      restrictedButton.disabled = true;
+      restrictedButton.title = "يجب تسجيل الدخول لاستخدام هذا الزر";
+    }
+  }
+});*/
+
+
+
+document.addEventListener("DOMContentLoaded", async function () {
+  try {
+    // أرسل طلب إلى السيرفر للتحقق من الجلسة
+    const response = await fetch('/checkAuth', {
+      method: 'GET',
+      credentials: 'include' // مهم جدًا لإرسال الكوكي التي تحتوي session ID
+    });
+
+    const data = await response.json();
+
+    if (data.loggedIn) {
+      // إخفاء عناصر تسجيل الدخول والتسجيل
+      document.querySelectorAll('.login-item').forEach(el => el.style.display = 'none');
+      document.querySelectorAll('.signup-item').forEach(el => el.style.display = 'none');
+
+      // إظهار زر Logout في جميع القوائم
+      const navLists = document.querySelectorAll('.navbar ul, .sidebar ul, .hiddenmobile ul');
+      navLists.forEach(nav => {
+        if (!nav.querySelector('#logout-item')) {
+          const logoutLi = document.createElement('li');
+          logoutLi.id = 'logout-item';
+          logoutLi.innerHTML = '<a href="#" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>';
+          nav.appendChild(logoutLi);
+        }
+      });
+
+      // ربط حدث الخروج
+      document.addEventListener('click', function (e) {
+  if (e.target.id === 'logoutBtn' || e.target.closest('#logoutBtn')) {
+    fetch('/logout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include'
+    }).then(response => response.json())
+      .then(data => {
+        console.log(data.message); // "تم تسجيل الخروج"
+        // بعد تسجيل الخروج، إعادة التوجيه يدويًا
+        alert(data.message);
+        window.location.reload();
+
+       
+      })
+      .catch(err => {
+        console.error('خطأ في الخروج:', err);
+      });
+  }
+});
+
+
+    } else {
+      // المستخدم غير مسجل الدخول: تعطيل زر معين (اختياري)
+      const restrictedButton = document.getElementById('myButton');
+      if (restrictedButton) {
+        restrictedButton.disabled = true;
+        restrictedButton.title = "يجب تسجيل الدخول لاستخدام هذا الزر";
+      }
+    }
+
+  } catch (error) {
+    console.error('حدث خطأ أثناء التحقق من الجلسة:', error);
+  }
+});
+
+
+  
 
 
     

@@ -77,12 +77,23 @@
               confirmButtonText: 'Okay',
             });
 
+            const userRole = data.user.role;
+
+            localStorage.setItem('loggedIn', 'true');
+            localStorage.setItem('userRole', userRole);
+            localStorage.setItem('userEmail', email);
+
           
-            if (role === '2') {  
+            if (userRole === 'admin') {  
 
 
               window.top.location.href = "admin_page.html";
-            } 
+            }else if(userRole === 'user'){
+              window.top.location.href = 'indexx.html';
+            } else{
+              showSwal("the role is not defined", "error");
+
+            }
           } else {
             Swal.fire({
               title: 'Error',

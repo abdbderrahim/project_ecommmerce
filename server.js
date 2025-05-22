@@ -37,6 +37,8 @@ const UpdateDelivery = require('./routes/UpdateDelivery');
 const DeleteDelivery = require('./routes/DeleteDelivery');
 const GetPeoductsByCategory = require('./routes/GetProductsByCategoryRoute');
 const SearchProduct = require('./routes/SearchProductRoute');
+const authRoute = require('./routes/AuthRoute');
+const logout = require('./routes/logoutRoute');
 const port = 9000;
 
 
@@ -72,7 +74,7 @@ app.post('/upload', upload.single('img_product'), (req, res) => {
 
 
   app.use(session({
-    secret: 'your_secret_key',  
+    secret: 'strike102030',  
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false }   
@@ -117,6 +119,8 @@ app.use(UpdateDelivery);
 app.use(DeleteDelivery);
 app.use(GetPeoductsByCategory);
 app.use(SearchProduct);
+app.use(authRoute);
+app.use(logout);
 
 app.use('/slide', express.static(path.join(__dirname, 'public', 'slide')));
 app.use('/slide', express.static('public/slide'));

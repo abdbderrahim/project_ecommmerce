@@ -131,7 +131,7 @@
              
        
     
-        <button type="submit"  id="btnOrder" class="btn btn-danger" >Place Order</button>
+        <button type="submit"  id="btnOrder" class="btn btn-primary" >Place Order</button>
             </div>
             <div class="paraOrder">
                <p></p>
@@ -178,23 +178,71 @@
           return;
         }
         
+      
+
+        
 
 
 
+        const delivery_address = document.getElementById("address").value.trim();
+  const customer_first_name = document.getElementById("firstName").value.trim();
+  const customer_last_name = document.getElementById("lastName").value.trim();
+  const customer_phone = document.getElementById("phone").value.trim();
+  const card_number = document.getElementById("cardNumber").value.trim();
+  const card_expiry = document.getElementById("cardExpiry").value.trim();
+  const card_cvv = document.getElementById("cardCvv").value.trim();
+  const zipcode = document.getElementById("zipcode").value.trim();
+  const country = document.getElementById("country").value.trim();
+  const total_price = document.getElementById('totalPrice').textContent.replace("$", "");
+  const total_amount = document.getElementById('totalAmount').textContent.replace("$", "");
+  const payment_method = localStorage.getItem('selectedPaymentMethod');
 
-        const delivery_address = document.getElementById("address").value;
-    const customer_first_name = document.getElementById("firstName").value;
-    const customer_last_name = document.getElementById("lastName").value;
-    const customer_phone = document.getElementById("phone").value;
-    const card_number = document.getElementById("cardNumber").value;
-    const card_expiry = document.getElementById("cardExpiry").value;
-    const card_cvv = document.getElementById("cardCvv").value;
-    const zipcode = document.getElementById("zipcode").value;
-    const country = document.getElementById("country").value;
-    const total_price = document.getElementById('totalPrice').textContent.replace("$", "");
-    const total_amount = document.getElementById('totalAmount').textContent.replace("$", "");
-    const payment_method = localStorage.getItem('selectedPaymentMethod');
     console.log('payment_method:',payment_method);
+
+    const input = document.getElementById('firstName');
+
+
+    if(!validator.isLength(customer_first_name, {min: 3})){
+      showSwal("First name must be at least 3 characters.", "error");
+      input.focus();
+      input.style.border = "2px solid red ";
+      input.placeholder = "*";
+      input.style.placeholder.color = "red";
+      
+      return false;
+    }
+
+    if (!validator.isLength(customer_last_name, { min: 3 })) {
+    showSwal("Last name must be at least 3 characters.", "error");
+    return false;
+  }
+
+  if (!validator.isNumeric(customer_phone) || customer_phone.length < 9 || phone.length > 10) {
+    showSwal("Phone number must be 9 to 10 digits.", "error");
+    return false;
+  }
+
+
+  /*if (!validator.isCreditCard(card_number) || cardNumber.length !== 16) {
+    showSwal("Card number must be 16 valid digits.", "error");
+    return false;
+  }*/
+
+
+
+  if (!validator.isDate(card_expiry)) {
+    showSwal("Invalid expiry date.", "error");
+    return false;
+  }
+
+
+  if (!validator.isNumeric(zipcode) || zipcode.length !== 4) {
+    showSwal("Zip code must be 4 digits.", "error");
+    return false;
+  }
+
+
+    
     
 
 
@@ -224,17 +272,24 @@
         credentials: "include",
         body: JSON.stringify(data)
       });
+      
+      if(response.status === 401){
+        const data = await  response.json();
+        showSwal('first signup','error');
+        return;
+      }
 
       const result = await response.json();
       if (result.success) {
        showSwal(`${result.message}`,'success');
+       document.querySelector("form").reset();
        
       } else {
        showSwal(`${result.message}`,'error');
       }
     } catch (error) {
       console.error("Error:", error);
-      showSwal('error to connected server ','error');
+      showSwal(' please signup first ','error');
      
     }
 

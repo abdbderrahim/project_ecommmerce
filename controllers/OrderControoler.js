@@ -12,6 +12,7 @@ exports.AddOrder = (req, res) => {
     }
 
     const userId = req.session.user.id_user;
+    const loggedIn = req.session.user;
     const { Total_price } = req.body;
 
     
@@ -33,7 +34,7 @@ exports.AddOrder = (req, res) => {
 
         if (result && result[0] && result[0][0] && result[0][0].id_order) {
             const orderId = result[0][0].id_order;
-            return res.status(200).json({ id_order: orderId });
+            return res.status(200).json({ id_order: orderId,loggedIn: loggedIn });
         } else {
             return res.status(400).json({ message: "Error to add order, no order ID returned" });
         }

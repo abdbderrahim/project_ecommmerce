@@ -39,6 +39,7 @@
             <th>Total Amount</th>
             <th>Fcature Date</th>
             <th>ID User</th>
+            <th>Actions</th>
             
           </tr>
         </thead>
@@ -76,6 +77,11 @@
                             <td>${order.total_amount}</td>
                             <td>${order.facture_date}</td>
                             <td>${order.id_user}</td>
+                             <td>
+    <button class="btn btn-danger btn-sm" onclick="deleteOrder(${order.id_order})">
+      <i class="fa fa-trash"></i> Delete
+    </button>
+
                         `;
                         tbody.appendChild(row);
                     });
