@@ -136,6 +136,28 @@
 }
 
 
+
+async function deleteOrder(id) {
+      if (confirm('Are you sure you want to delete this order?')) {
+        try {
+          const response = await fetch(`http://localhost:9000/DeleteOrder/${id}`, {
+            method: 'DELETE'
+          });
+          const result = await response.json();
+          alert(result.message);
+          window.top.reload();
+          // Reload list
+        } catch (err) {
+          console.error('Error deleting order:', err);
+          alert('Error deleting order.');
+        }
+      }
+    }
+
+
+
+
+
     </script>
     
     

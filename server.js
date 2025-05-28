@@ -39,6 +39,8 @@ const GetPeoductsByCategory = require('./routes/GetProductsByCategoryRoute');
 const SearchProduct = require('./routes/SearchProductRoute');
 const authRoute = require('./routes/AuthRoute');
 const logout = require('./routes/logoutRoute');
+const DeleteOrder = require('./routes/DeleteOrderRoute');
+const DeleteCartItem = require('./routes/DeleteCartitemRoute');
 const port = 9000;
 
 
@@ -121,6 +123,8 @@ app.use(GetPeoductsByCategory);
 app.use(SearchProduct);
 app.use(authRoute);
 app.use(logout);
+app.use(DeleteOrder);
+app.use(DeleteCartItem);
 
 app.use('/slide', express.static(path.join(__dirname, 'public', 'slide')));
 app.use('/slide', express.static('public/slide'));

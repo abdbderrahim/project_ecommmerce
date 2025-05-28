@@ -9,27 +9,12 @@
     
     <link rel="stylesheet" href="register.html">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    <script src="https://unpkg.com/i18next@21.6.3/dist/umd/i18next.min.js"></script>
-    <style>
-      /* Hide the top banner */
-      .goog-te-banner-frame.skiptranslate {
-        display: none !important;
-      }
-    
-      /* Remove spacing caused by the banner */
-      body {
-        top: 0px !important;
-        position: relative;
-      }
-    
-      /* Optional: Hide full-page overlay */
-      .goog-te-spinner-pos {
-        display: none !important;
-      }
-    </style>
-    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 <body>
+
+
 
 
 
@@ -91,7 +76,7 @@
             </ul>
 
             <ul class="nav-links">
-                <li class="hidenonMobile"><a href="#">Home</a></li>
+                <li class="hidenonMobile"><a href="indexx.html">Home</a></li>
                 <li class="hidenonMobile dropdown">
                     <a href="#">Categories</a>
                     <ul class="dropdown-menu"  id="categoriesDropdown">
@@ -105,6 +90,10 @@
             </ul>
         </nav>
     </header>
+
+
+
+
 
  
     <div id="carouselExampleIndicators" class="carousel slide">
@@ -136,7 +125,7 @@
       </div>
 
 
-      <div id="google_translate_element"></div>
+      
 
 
       <div class="container">
@@ -245,6 +234,7 @@
   
  
      <script>
+      let loggin = null;
 
 
 
@@ -258,7 +248,7 @@ function searchProducts() {
             productsContainer.innerHTML = ''; // تفريغ المحتوى السابق
 
             if (products.length === 0) {
-                productsContainer.innerHTML = '<p>لا توجد منتجات مطابقة.</p>';
+                productsContainer.innerHTML = '<p style="margin: 50px 100px; color: rgb(171, 178, 185); font-size: 20px;">No matching products found!</p>';
                 return;
             }
 
@@ -269,9 +259,9 @@ function searchProducts() {
 
                 let productCard = `
                     <div class="col-sm-2 col-md-4 col-lg-3 mb-2">
-                        <div class="card" style="width: 100%; height: 100%;">
+                        <div class="card" style="width: 100%;" style="height: 100%;" >
                             <img src="${imagePath}" class="card-img-top" alt="${product.name}" style="height: 60%; marg">
-                            <div class="card-body">
+                            <div class="card-body"  height: 200px !important">
                                 <h5 class="card-title">${product.name}</h5>
                                 <p class="card-text">${product.description}</p>
                                 <div id="star">
@@ -280,7 +270,7 @@ function searchProducts() {
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star-half-stroke"></i>
                                 </div>
-                                <p class="card-text"><strong>السعر:</strong> ${product.price}$</p>
+                                <p class="card-text"><strong>Price:</strong> ${product.price}$</p>
                                 <button class="btn btn-primary" onclick="addToCart('${product.id_product}', '${product.name}', ${product.price}, '${imagePath}')">
                                     <i class="fa-solid fa-cart-plus"></i>
                                 </button>
@@ -292,7 +282,7 @@ function searchProducts() {
             });
         })
         .catch(error => {
-            console.error('خطأ في جلب المنتجات:', error);
+            console.error('error to get products:', error);
         });
 }
 
@@ -349,9 +339,9 @@ function searchProducts() {
 
         let productCard = `
           <div class="col-sm-2 col-md-4 col-lg-3 mb-2" >
-            <div class="card" style="width: 100%; height: 100%;">
-              <img src="${imagePath}" class="card-img-top" alt="${product.name}" style="height: 45%;">
-              <div class="card-body" style="height: 100px !important">
+            <div class="card" style="width: 100%;" style="height: 100%;">
+              <img src="${imagePath}" class="card-img-top" alt="${product.name}" style="height: 60%; marg">
+              <div class="card-body" style="height: 200px !important">
                 <h5 class="card-title">${product.name}</h5>
                 <p class="card-text">${product.description}</p>
                 <div id="star">
@@ -392,10 +382,10 @@ function searchProducts() {
                     .replace(/'/g, '') 
                     .replace(/\\/g, '/');
             let productCard = `
-                <div class="col-sm-2 col-md-4 col-lg-3 mb-2">
-                    <div class="card" style="width: 100%;" style="height: 100%;">
+                <div class="col-sm-2 col-md-4 col-lg-3 mb-2" >
+                    <div class="card" style="width: 100%;" style="height: 100%;" >
                         <img src="${imagePath}" class="card-img-top" alt="${product.name}" style="height: 60%; marg">
-                        <div class="card-body">
+                        <div class="card-body" style=" height: 200px !important"  >
                             <h5 class="card-title">${product.name}</h5>
                             <p class="card-text">${product.description}<
                               
@@ -453,9 +443,13 @@ function addItemToCart(orderId, idProduct,productName, productPrice, productImg)
         cart.push({ id_product:idProduct,name: productName, price: productPrice, image: productImg, quantity: 1 });
         
     }
-    localStorage.setItem('cart', JSON.stringify(cart));  
+  if(loggin === true){
+        localStorage.setItem('cart', JSON.stringify(cart));
+        showSwal('product add to cart','success'); 
 
-alert("Product added to cart!");
+   }else{
+     showSwal('You must be logged in to add products to cart','error');
+   }
 
   
 
@@ -481,7 +475,7 @@ fetch('http://localhost:9000/AddCartItem',{
    
   
   }else{
-    alert(data.message);
+    //alert(data.message);
   }
 })
 .catch(error => console.error('Error adding product to cart:', error));
@@ -496,24 +490,16 @@ function showSwal(message, iconType) {
         text: message,
         timer: 7000,
         timerProgressBar: true,
-        showConfirmButton: false,
-        position: 'top',
+        showConfirmButton: true,
+        position: 'center',
+        confirmButtonColor: '#3085d6'
     });
 }
 
 
 
 
-function googleTranslateElementInit() {
-      new google.translate.TranslateElement({
-        pageLanguage: 'en',
-        includedLanguages: 'en,ar,fr',
-        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-      }, 'google_translate_element');
-    }
-
-
-
+ 
     /*document.addEventListener("DOMContentLoaded", function () {
   const isLoggedIn = localStorage.getItem('loggedIn');
 
@@ -555,15 +541,16 @@ function googleTranslateElementInit() {
 
 document.addEventListener("DOMContentLoaded", async function () {
   try {
-    // أرسل طلب إلى السيرفر للتحقق من الجلسة
+  
     const response = await fetch('/checkAuth', {
       method: 'GET',
-      credentials: 'include' // مهم جدًا لإرسال الكوكي التي تحتوي session ID
+      credentials: 'include'
     });
 
     const data = await response.json();
 
     if (data.loggedIn) {
+      loggin  = true;
       // إخفاء عناصر تسجيل الدخول والتسجيل
       document.querySelectorAll('.login-item').forEach(el => el.style.display = 'none');
       document.querySelectorAll('.signup-item').forEach(el => el.style.display = 'none');
@@ -588,9 +575,10 @@ document.addEventListener("DOMContentLoaded", async function () {
       credentials: 'include'
     }).then(response => response.json())
       .then(data => {
-        console.log(data.message); // "تم تسجيل الخروج"
+        //console.log(data.message);
+        // "تم تسجيل الخروج"
         // بعد تسجيل الخروج، إعادة التوجيه يدويًا
-        alert(data.message);
+        //alert(data.message);
         window.location.reload();
 
        
@@ -649,6 +637,13 @@ let numbers = [1,2,3,4,5,6];
 numbers.forEach(num => {
   console.log(num);
 })*/
+
+
+
+
+
+
+
 
 
       
