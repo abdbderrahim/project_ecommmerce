@@ -41,8 +41,7 @@
                       <li onclick="closesidebar()"><a href="javascript:void(0)"><i class="fa-solid fa-xmark"></i></a></li>
                       <li><a href="indexx.html"> <i class="fa-solid fa-house"></i> Home</a></li>
                       <li><a href="#"><i class="fa-solid fa-list"></i> Categories</a></li>
-                      <li><a href="#"><i class="fa-solid fa-right-to-bracket"></i> Sign In</a></li>
-                      <li><a href="#" data-bs-toggle="modal" data-bs-target="#signupModal"><i class="fa-solid fa-user-plus"></i> Sign Up</a></li>
+                    
       
       
       
@@ -57,14 +56,15 @@
                             
                           </ul>
                       </li>
-                      <li class="hidenonMobile"><a href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Sign In</a></li>
-                      <li class="hidenonMobile"><a href="#" data-bs-toggle="modal" data-bs-target="#signupModal">Sign Up</a></li>
+                    
                       <li class="hidenonMobile"><a href="CartItems.html"><i class="fa-solid fa-cart-shopping"></i></a></li>
                       <li class="menu-btn" onclick="showsidebar()"><a href="javascript:void(0)"><i class="fa-solid fa-bars"></i></a></li>
                   </ul>
               </nav>
           </header>
-      
+
+
+ <div  class="container_short" >     
     <div class="container mt-3">
         <h2 class="text-center mb-4">Shopping Cart</h2>
         <hr>
@@ -82,26 +82,36 @@
 
     <div class="checkout" >
         <h4>Order summary</h4>
-        <label for="">Shipping fee: <span>$9.00</span></label>
-       <br>
-       <label for="totalAmount" class="form-label">Total Amount: <span  id="totalAmount">$00.00</span></label>
-       <br>
-        <label for="paymentMethode"> Payment Methode</label>
-        <select name="" id="paymentMethode" class="from-select">
-            <option value="Credit Card">Credit Card</option>
-            <option value="PayPal">PayPal</option>
-            <option value="Cash on Delivery">Cash on Delivery</option>
-        </select>
+        <hr>
+        <label for="">Shipping fee: &nbsp &nbsp &nbsp &nbsp &nbsp <span>$9.00</span></label>
+        <hr>
+       
+       
+          <label for="totalArticles" class="form-label">Total Articls: &nbsp &nbsp &nbsp &nbsp &nbsp<span  id="totalArticles">$00.00</span></label>
+          <hr>
+
+           <label for="totalArticles" class="form-label">Total Price: &nbsp  &nbsp &nbsp &nbsp &nbsp<span  id="totalPrice">$00.00</span></label>
+           <hr>
+           
+
+
+
+           
+            <label for="totalAmount" class="form-label">Total Amount: &nbsp &nbsp &nbsp &nbsp &nbsp<span  id="totalAmount">$00.00</span></label>
+            <hr>
+       
+          
+     
         <div class="total">
          
    
 
-    <button type="submit"  id="btnOrder" class="btn btn-danger" > <i class="fa-solid fa-circle-check"></i><a href="Checkout.html">Checkout</a></button>
+    <button type="submit"  id="btnOrder" class="btn btn-primary" > <i class="fa-solid fa-circle-check"></i>&nbsp &nbsp<a href="Checkout.html">Checkout</a></button>
         </div>
         <div class="paraOrder">
            <p></p>
         </div>
-    </div>
+    </div></div>
     
 
     <script>
@@ -109,19 +119,47 @@
             let cart = JSON.parse(localStorage.getItem('cart')) || [];  
             let cartContainer = document.getElementById('cartItems');
             let cartTotal = document.getElementById('cartTotal');
+            let totalArticless = document.getElementById('totalArticles');
+            let totalPricee = document.getElementById('totalPrice')
             let totalAmountInput = document.getElementById('totalAmount');
             let total = 0;
+            let totalArticles = 0;
+            let totalPrice = 0;
 
             console.log("Cart loaded from localStorage:", cart); 
 
             if (cart.length === 0) {
-                cartContainer.innerHTML = `<p <div class="text-center">
+                
+                cartContainer.innerHTML = `
+                 <img src="slide/panierimg.avif" class="img-fluid" alt="Empty cart image" style="width: 280px;" >
+                <p <div class="text-center">
             <p>Your cart is empty.</p>
-            <img src="slide/panierimg.avif" class="img-fluid" alt="Empty cart image" style="width: 200px;">
+            <p>Browse our categories and discover our best offers
+</p>
+
+<button 
+    style="
+      background-color: #007bff;
+      color: white;
+      border: none;
+      width: 120px;
+      padding: 10px 0px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    "
+    onclick="window.location.href='indexx.html';"
+  >
+    Go to Shop
+  </button>
+           
         </div>
     `;
                 cartTotal.textContent = '0.00';
                 totalAmountInput.value = '0.00';
+                totalArticless.textContent = '0';
+                totalPricee.textContent = '0.00';
                 return;
             }
             cartContainer.innerHTML = "";
@@ -129,6 +167,8 @@
             cart.forEach((item, index) => {
                 let itemTotal = item.price * item.quantity;
                 total += itemTotal;
+                totalArticles += item.quantity;
+                totalPrice += itemTotal
                 let card = `
                     <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
                         <div class="card" style="width: 100%;">
@@ -146,7 +186,10 @@
             });
 
             cartTotal.textContent = total.toFixed(2);
-            totalAmountInput.innerHTML = total.toFixed(2);
+            totalAmountInput.innerHTML = (total + 9).toFixed(2);
+            totalArticless.innerHTML = totalArticles;
+            totalPricee.innerHTML = totalPrice.toFixed(2);
+
         }
 
         function updateQuantity(index) {
@@ -164,7 +207,7 @@
 }
 
 
-        document.getElementById('btnOrder').addEventListener("click", async function () {
+        /*document.getElementById('btnOrder').addEventListener("click", async function () {
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
             let totalPrice = 0;
 
@@ -178,7 +221,7 @@
 
             let dataOrder = {
                 total_price: totalPrice,
-                payment_methode: paymentMethode,
+                //payment_methode: paymentMethode,
                 total_amount: totalAmount
             };
 
@@ -199,7 +242,7 @@
                 }
             })
             .catch(error => console.error('Error adding order:', error));
-        });
+        });*/
         document.getElementById('btnClearCart').addEventListener('click', async function () {
             fetch('http://localhost:9000/ClearCart',{
                 method: 'delete',
@@ -286,6 +329,8 @@
         window.onload = DisplayCart;  
 
     </script>
+
+     <script src="index.js"></script>
 
     <script src="bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
 </body>

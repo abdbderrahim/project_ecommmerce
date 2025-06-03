@@ -68,11 +68,12 @@
                 <li><a href="indexx.html"> <i class="fa-solid fa-house"></i> Home</a></li>
                 <li><a href="#"><i class="fa-solid fa-list"></i> Categories</a></li>
                 <li  class="login-item"><a href="#" ><i class="fa-solid fa-right-to-bracket"></i> Sign In</a></li>
+                <li><a href="#" id="logoutBtn" ><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
                 <li class="signup-item"><a href="#" data-bs-toggle="modal" data-bs-target="#signupModal" ><i class="fa-solid fa-user-plus"></i> Sign Up</a></li>
 
 
 
-                <li><a href="#"> <i class="fa-solid fa-cart-shopping"></i> Cart</a></li>
+                <li><a href="CartItems.html"> <i class="fa-solid fa-cart-shopping"></i> Cart</a></li>
             </ul>
 
             <ul class="nav-links">
@@ -154,41 +155,7 @@
 
       
 
-     <div class="container1  ">
-      <div class="row">
-        <div class="col">
-          <img src="slide\Black and White Minimalism Fashion Influencer Instagram Post Set.jpg" class="img-fluid" alt="...">
-        
-        </div>
-
-        <div class="col">
-          
-          <img src="slide\Baby Photo Frame Retractable Banner in Soft Peach in Organic Style.jpg" class="img-fluid" alt="...">
-        
-        </div>
-       
-
-       
-
-        <div class="col">
-          <img src="slide\Green Simple Photocentric Fashion Product Introduction Instagram Post.jpg" class="img-fluid h-35" alt="...">
-         
-        </div>
-
-        <div class="col">
-          <img src="slide\Green Simple Photocentric Fashion Product Introduction Instagram Post.jpg" class="img-fluid h-35" alt="...">
-         
-        </div>
-
-        <div class="col">
-          <img src="slide\Green Simple Photocentric Fashion Product Introduction Instagram Post.jpg" class="img-fluid h-35" alt="...">
-        
-        </div>
-
-       
-        
-      </div>
-     </div>
+  
 
 
     <div class="footer">
@@ -384,7 +351,7 @@ function searchProducts() {
             let productCard = `
                 <div class="col-sm-2 col-md-4 col-lg-3 mb-2" >
                     <div class="card" style="width: 100%;" style="height: 100%;" >
-                        <img src="${imagePath}" class="card-img-top" alt="${product.name}" style="height: 60%; marg">
+                        <img src="${imagePath}" class="card-img-top" alt="${product.name}" style="height: 60%; marg"  class="img-fluid">
                         <div class="card-body" style=" height: 200px !important"  >
                             <h5 class="card-title">${product.name}</h5>
                             <p class="card-text">${product.description}<
@@ -396,7 +363,7 @@ function searchProducts() {
                               </div>
                              
                             <p class="card-text"><strong>Price:</strong> ${product.price}$</p>
-                             <button class="btn btn-primary"onclick="addToCart('${product.id_product}', '${product.name}', ${product.price}, '${imagePath}')"  ><i class="fa-solid fa-cart-plus"></i></button>
+                             <button  class="btn btn-primary"onclick="addToCart('${product.id_product}', '${product.name}', ${product.price}, '${imagePath}')"  ><i class="fa-solid fa-cart-plus"></i></button>
 
                         </div>
                     </div>
@@ -471,7 +438,7 @@ fetch('http://localhost:9000/AddCartItem',{
   console.log("response:" ,data);
   if(data.success){
     
-   showSwal(`${data.message}`,)
+   showSwal(`${data.message}`,'success')
    
   
   }else{
@@ -561,7 +528,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         if (!nav.querySelector('#logout-item')) {
           const logoutLi = document.createElement('li');
           logoutLi.id = 'logout-item';
-          logoutLi.innerHTML = '<a href="#" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>';
+          logoutLi.innerHTML = '<a href="#" id="logoutBtn" ><i class="fa-solid fa-right-from-bracket"></i> Logout</a>';
           nav.appendChild(logoutLi);
         }
       });

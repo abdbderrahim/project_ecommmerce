@@ -47,10 +47,10 @@
                   <label for="exampleInputPassword1" class="form-label">Password</label>
                   <input type="password" class="form-control" id="password"  style="margin-bottom: 40px;">
                 </div>
-                <select class="form-select" aria-label="Default select example" style="margin-bottom: 30px;" id="role">
+                <select style="margin-bottom: 30px;" id="role" hidden>
                   
                     <option value="user">User</option>
-                    <option value="admin">Admin</option>
+                   
                    
                   </select>
 
@@ -91,7 +91,7 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
         return showSwal('Invalid email address', 'error');
     }
 
-    if (!/^\d{9,10}$/.test(phone)) {
+    if (!/^\+?\d{9,15}$/.test(phone)) {
         return showSwal('Phone number must be 9 or 10 digits', 'error');
     }
 
@@ -113,6 +113,7 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
         if (response.ok) {
           showSwal(` ${data.message}`,`success`);
             registerForm.reset();
+            window.top.location.href = 'Login.html';
             
         } else {
           showSwal(` ${data.message}`, 'error');

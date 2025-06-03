@@ -6,7 +6,7 @@
 
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f9f9f9;
+    background-color: #eeebeb;
 }
 
 /* Header Styles */
@@ -204,6 +204,18 @@ body {
     .hidenonMobile {
         display: none;
     }
+     #logout-item{
+        display: none;
+    }
+    .hidenonMobile .logoutBtn{
+        display: none;
+    }
+    .login-item{
+        display: none;
+    }
+    .signup-item{
+        display: none;
+    }
 
     .menu-btn {
         display: block;
@@ -217,9 +229,29 @@ body {
     #inp_search {
         width: 70%;
     }
+   .card{
+    width: 220px !important;
+    height: 400px !important;
+     margin-left: 80px !important;
+   
+   
+   }
+   .card img{
+    height: 200px !important;
+   
+   }
+  
+    #star{
+    color: #98cfd8;
+ 
+ 
+  }
+
+  
 }
 #carouselExampleIndicators{
     margin-top: 100px;
+   
     
 }
 
@@ -249,6 +281,12 @@ body {
   
   
  
+}
+.container{
+  
+    height: 100% !important;
+    width: 100% !important;
+    
 }
 
 .container1 img{
@@ -286,8 +324,11 @@ body {
 }
 .container .card #star{
     color: orange;
+   
 
 }
+
+
 
 
 
@@ -324,11 +365,11 @@ body {
 .footer{
 
    
-    background-color: #1d1d38 ;
+    background-color: #213448 ;
     /*height: 200px ;*/
 }
 .media{
-    background-color: #6156a8;
+    background-color: #547792;
     color: white;
     display: flex;
    justify-content: space-between;
