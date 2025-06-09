@@ -199,6 +199,7 @@ function DeleteProduct(id) {
      
     } else {
       showSwal(`${data.message}`,'error');
+        DisplayProductsData();
     }
   })
   .catch(error => {

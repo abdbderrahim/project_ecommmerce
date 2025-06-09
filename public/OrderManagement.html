@@ -147,7 +147,11 @@ async function deleteOrder(id) {
             method: 'DELETE'
           });
           const result = await response.json();
-          alert(result.message);
+          if(result.success){
+            showSwal(`${result.message}`,'success');
+          }else{
+            showSwal(`${result.message}`,'error');
+          }
           window.top.reload();
           // Reload list
         } catch (err) {

@@ -10,6 +10,42 @@
     <link rel="stylesheet" href="register.html">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+       #btnscroll{
+            width: 55px;
+            height: 55px;
+            border: none;
+            background: lightcoral;
+            cursor: pointer;
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            display: none;
+            border-radius: 30px;
+            background-color: #98cfd8;
+            color: white;
+            font-size: 25px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links .desktop-auth-item,
+            .nav-links .hidenonMobile {
+                display: none !important;
+            }
+            
+            .nav-links .menu-btn {
+                display: block !important;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .sidebar.active {
+                display: block;
+            }
+        }
+    </style>
 
 </head>
 <body>
@@ -27,7 +63,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
           </div>
           <div class="modal-body" style=" width: 100%; ">
-              <iframe src="register.html" style="width: 100%; height: 700px; "></iframe>
+              <iframe src="register.html" style="width: 100%; height: 500px; "></iframe>
           </div>
       </div>
   </div>
@@ -67,12 +103,9 @@
                 <li onclick="closesidebar()"><a href="javascript:void(0)"><i class="fa-solid fa-xmark"></i></a></li>
                 <li><a href="indexx.html"> <i class="fa-solid fa-house"></i> Home</a></li>
                 <li><a href="#"><i class="fa-solid fa-list"></i> Categories</a></li>
-                <li  class="login-item"><a href="#" ><i class="fa-solid fa-right-to-bracket"></i> Sign In</a></li>
-                <li><a href="#" id="logoutBtn" ><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
-                <li class="signup-item"><a href="#" data-bs-toggle="modal" data-bs-target="#signupModal" ><i class="fa-solid fa-user-plus"></i> Sign Up</a></li>
-
-
-
+                <li class="login-item sidebar-auth-item"><a href="#" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="fa-solid fa-right-to-bracket"></i> Sign In</a></li>
+                <li class="logout-item sidebar-auth-item" style="display: none;"><a href="#" id="sidebarLogoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+                <li class="signup-item sidebar-auth-item"><a href="#" data-bs-toggle="modal" data-bs-target="#signupModal"><i class="fa-solid fa-user-plus"></i> Sign Up</a></li>
                 <li><a href="CartItems.html"> <i class="fa-solid fa-cart-shopping"></i> Cart</a></li>
             </ul>
 
@@ -80,14 +113,13 @@
                 <li class="hidenonMobile"><a href="indexx.html">Home</a></li>
                 <li class="hidenonMobile dropdown">
                     <a href="#">Categories</a>
-                    <ul class="dropdown-menu"  id="categoriesDropdown">
-                      
-                    </ul>
+                    <ul class="dropdown-menu" id="categoriesDropdown"></ul>
                 </li>
-                <li  class="login-item"   class="hidenonMobile"><a href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Sign In</a></li>
-                <li class="signup-item" class="hidenonMobile"><a href="#" data-bs-toggle="modal" data-bs-target="#signupModal">Sign Up</a></li>
+                <li class="login-item desktop-auth-item"><a href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Sign In</a></li>
+                <li class="signup-item desktop-auth-item"><a href="#" data-bs-toggle="modal" data-bs-target="#signupModal">Sign Up</a></li>
+                <li class="logout-item desktop-auth-item" style="display: none;"><a href="#" id="navLogoutBtn">Logout</a></li>
                 <li class="hidenonMobile"><a href="CartItems.html"><i class="fa-solid fa-cart-shopping"></i></a></li>
-                <li class="menu-btn" onclick="showsidebar()"><a href="javascript:void(0)"><i class="fa-solid fa-bars"></i></a></li>
+                <li class="menu-btn"><a href="javascript:void(0)" onclick="showsidebar()"><i class="fa-solid fa-bars"></i></a></li>
             </ul>
         </nav>
     </header>
@@ -151,7 +183,7 @@
         
           
           
-             
+              <button id="btnscroll"><i class="fa-solid fa-up-long"></i></button>
 
       
 
@@ -212,8 +244,7 @@ function searchProducts() {
         .then(response => response.json())
         .then(products => {
             const productsContainer = document.getElementById('products-list');
-            productsContainer.innerHTML = ''; // تفريغ المحتوى السابق
-
+            productsContainer.innerHTML = ''; 
             if (products.length === 0) {
                 productsContainer.innerHTML = '<p style="margin: 50px 100px; color: rgb(171, 178, 185); font-size: 20px;">No matching products found!</p>';
                 return;
@@ -297,8 +328,7 @@ function searchProducts() {
     .then(response => response.json())
     .then(products => {
       const productsContainer = document.getElementById('products-list');
-      productsContainer.innerHTML = ''; // مسح المحتوى السابق
-
+      productsContainer.innerHTML = ''; 
       products.forEach(product => {
         const imagePath = product.img_product
           .replace(/'/g, '') 
@@ -335,6 +365,31 @@ function searchProducts() {
 }
 
 
+
+
+ let btnscroll = document.getElementById('btnscroll');
+
+        window.onscroll = function(){
+            if(scrollY >= 400){
+                btnscroll.style.display = 'block';
+
+            }
+            else{
+                btnscroll.style.display = 'none';
+            }
+        }
+        btnscroll.onclick = function(){
+            
+            scroll({
+                left:0,
+                top:0,
+                behavior:"smooth"
+            })
+        }
+      
+       
+
+
       fetch("http://localhost:9000/GetAllProducts")
     .then(response => response.json())
     .then(data => {
@@ -354,15 +409,12 @@ function searchProducts() {
                         <img src="${imagePath}" class="card-img-top" alt="${product.name}" style="height: 60%; marg"  class="img-fluid">
                         <div class="card-body" style=" height: 200px !important"  >
                             <h5 class="card-title">${product.name}</h5>
-                            <p class="card-text">${product.description}<
-                              
-                              
-                              /p>
+                            <p class="card-text">${product.description}</p>
                             <div id="star">
                                 <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
                               </div>
                              
-                            <p class="card-text"><strong>Price:</strong> ${product.price}$</p>
+                            <p class="card-text"><strong>Price:</strong> ${product.price}DH</p>
                              <button  class="btn btn-primary"onclick="addToCart('${product.id_product}', '${product.name}', ${product.price}, '${imagePath}')"  ><i class="fa-solid fa-cart-plus"></i></button>
 
                         </div>
@@ -508,66 +560,62 @@ function showSwal(message, iconType) {
 
 document.addEventListener("DOMContentLoaded", async function () {
   try {
-  
     const response = await fetch('/checkAuth', {
       method: 'GET',
       credentials: 'include'
     });
 
     const data = await response.json();
+    loggin = data.loggedIn;
 
-    if (data.loggedIn) {
-      loggin  = true;
-      // إخفاء عناصر تسجيل الدخول والتسجيل
-      document.querySelectorAll('.login-item').forEach(el => el.style.display = 'none');
-      document.querySelectorAll('.signup-item').forEach(el => el.style.display = 'none');
-
-      // إظهار زر Logout في جميع القوائم
-      const navLists = document.querySelectorAll('.navbar ul, .sidebar ul, .hiddenmobile ul');
-      navLists.forEach(nav => {
-        if (!nav.querySelector('#logout-item')) {
-          const logoutLi = document.createElement('li');
-          logoutLi.id = 'logout-item';
-          logoutLi.innerHTML = '<a href="#" id="logoutBtn" ><i class="fa-solid fa-right-from-bracket"></i> Logout</a>';
-          nav.appendChild(logoutLi);
+    function updateAuthUI(isLoggedIn) {
+      // Desktop auth items
+      document.querySelectorAll('.desktop-auth-item').forEach(el => {
+        if (el.classList.contains('logout-item')) {
+          el.style.display = isLoggedIn ? 'block' : 'none';
+        } else {
+          el.style.display = isLoggedIn ? 'none' : 'block';
         }
       });
 
-      // ربط حدث الخروج
-      document.addEventListener('click', function (e) {
-  if (e.target.id === 'logoutBtn' || e.target.closest('#logoutBtn')) {
-    fetch('/logout', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include'
-    }).then(response => response.json())
-      .then(data => {
-        //console.log(data.message);
-        // "تم تسجيل الخروج"
-        // بعد تسجيل الخروج، إعادة التوجيه يدويًا
-        //alert(data.message);
-        window.location.reload();
-
-       
-      })
-      .catch(err => {
-        console.error('خطأ في الخروج:', err);
+      // Sidebar auth items
+      document.querySelectorAll('.sidebar-auth-item').forEach(el => {
+        if (el.classList.contains('logout-item')) {
+          el.style.display = isLoggedIn ? 'block' : 'none';
+        } else {
+          el.style.display = isLoggedIn ? 'none' : 'block';
+        }
       });
-  }
-});
-
-
-    } else {
-      // المستخدم غير مسجل الدخول: تعطيل زر معين (اختياري)
-      const restrictedButton = document.getElementById('myButton');
-      if (restrictedButton) {
-        restrictedButton.disabled = true;
-        restrictedButton.title = "يجب تسجيل الدخول لاستخدام هذا الزر";
-      }
     }
 
+    // Update UI on load
+    updateAuthUI(data.loggedIn);
+
+    // Handle logout button clicks
+    document.addEventListener('click', function (e) {
+      if (e.target.id === 'navLogoutBtn' || e.target.id === 'sidebarLogoutBtn' || 
+          e.target.closest('#navLogoutBtn') || e.target.closest('#sidebarLogoutBtn')) {
+        fetch('/logout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include'
+        })
+        .then(response => response.json())
+        .then(data => {
+          loggin = false;
+          updateAuthUI(false);
+          window.location.reload();
+        })
+        .catch(err => {
+          console.error('Logout error:', err);
+          showSwal('Error during logout', 'error');
+        });
+      }
+    });
+
   } catch (error) {
-    console.error('حدث خطأ أثناء التحقق من الجلسة:', error);
+    console.error('Session check error:', error);
+    showSwal('Error checking login status', 'error');
   }
 });
 

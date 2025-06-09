@@ -93,6 +93,7 @@ body {
 }
 
 .nav-links a:hover {
+    color:  #3d7a8b;
  
     
 }
@@ -162,8 +163,10 @@ body {
 .sidebar li {
     list-style: none;
     width: 250px;
-    padding: 5px ;
+    padding: 10px 10px ;
     transition: transform 0.3s;
+    margin-top: 20px;
+
     
  
  
