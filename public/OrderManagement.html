@@ -54,13 +54,13 @@
 
 
       <script>
-        fetch('http://localhost:9000/GetAllOrders') // غيّر هذا الرابط حسب سيرفرك
-            .then(response => response.json())
+        fetch('http://localhost:9000/GetAllOrders') 
+                    .then(response => response.json())
             .then(result => {
                 if (result.success) {
                     const orders = result.data;
                     const tbody = document.querySelector("tbody");
-                    tbody.innerHTML = ""; // تنظيف الجدول أولاً
+                    tbody.innerHTML = "";
     
                     orders.forEach(order => {
                         const row = document.createElement("tr");
@@ -153,7 +153,7 @@ async function deleteOrder(id) {
             showSwal(`${result.message}`,'error');
           }
           window.top.reload();
-          // Reload list
+          
         } catch (err) {
           console.error('Error deleting order:', err);
           alert('Error deleting order.');

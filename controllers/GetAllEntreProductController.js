@@ -1,7 +1,7 @@
 const connection = require('../config/DB');
 
 exports.GetAllEntreProduct = (req, res) => {
-  const query = 'SELECT * FROM entre_products'; // غيّر اسم الجدول حسب الحاجة
+  const query = 'SELECT * FROM entre_products'; 
 
   connection.query(query, (err, result) => {
     if (err) {

@@ -48,16 +48,16 @@
     <div class="theard">
 
         <script>
-            // Get all checkboxes with class 'payment-method'
+            
             const paymentCheckboxes = document.querySelectorAll('.payment-method');
         
             paymentCheckboxes.forEach((checkbox) => {
                 checkbox.addEventListener('change', () => {
-                    // Uncheck all others (make only one selectable)
+                   
                     paymentCheckboxes.forEach(cb => cb !== checkbox && (cb.checked = false));
         
                     if (checkbox.checked) {
-                        // Store selected payment method in localStorage
+                       
                         localStorage.setItem('selectedPaymentMethod', checkbox.value);
                         console.log('Saved:', checkbox.value);
                         window.location.href = 'DataCard.html';

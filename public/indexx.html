@@ -102,7 +102,10 @@
             <ul id="sidebarr" class="sidebar">
                 <li onclick="closesidebar()"><a href="javascript:void(0)"><i class="fa-solid fa-xmark"></i></a></li>
                 <li><a href="indexx.html"> <i class="fa-solid fa-house"></i> Home</a></li>
-                <li><a href="#"><i class="fa-solid fa-list"></i> Categories</a></li>
+                <li class="sidebar-dropdown">
+                    <a href="#"><i class="fa-solid fa-list"></i> Categories</a>
+                    <ul id="sidebarCategoriesDropdown" class="sidebar-dropdown-menu"></ul>
+                </li>
                 <li class="login-item sidebar-auth-item"><a href="#" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="fa-solid fa-right-to-bracket"></i> Sign In</a></li>
                 <li class="logout-item sidebar-auth-item" style="display: none;"><a href="#" id="sidebarLogoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
                 <li class="signup-item sidebar-auth-item"><a href="#" data-bs-toggle="modal" data-bs-target="#signupModal"><i class="fa-solid fa-user-plus"></i> Sign Up</a></li>
@@ -302,21 +305,26 @@ function searchProducts() {
       .then(response => response.json())
       .then(categories =>{
         const dropdownMenu = document.getElementById('categoriesDropdown');
+        const sidebarDropdown = document.getElementById('sidebarCategoriesDropdown');
         categories.forEach(category => {
-          const li = document.createElement('li');
-          const a = document.createElement('a');
-          a.href = '#';
-          a.textContent = category.name;
-          a.addEventListener('click',() => GetProductsByCategory(category.id_categorie));
-          li.appendChild(a);
-          dropdownMenu.appendChild(li);
+          const li1 = document.createElement('li');
+          const a1 = document.createElement('a');
+          a1.href = '#';
+          a1.textContent = category.name;
+          a1.addEventListener('click',() => GetProductsByCategory(category.id_categorie));
+          li1.appendChild(a1);
+          dropdownMenu.appendChild(li1);
+
+          const li2 = document.createElement('li');
+          const a2 = document.createElement('a');
+          a2.href = '#';
+          a2.textContent = category.name;
+          a2.addEventListener('click', () => GetProductsByCategory(category.id_categorie));
+          li2.appendChild(a2);
+          sidebarDropdown.appendChild(li2);
         });
 
       })
-
-
-
-
       .catch(error =>{
         console.error('Error fetching categories:', error);
       })
@@ -519,43 +527,7 @@ function showSwal(message, iconType) {
 
 
  
-    /*document.addEventListener("DOMContentLoaded", function () {
-  const isLoggedIn = localStorage.getItem('loggedIn');
-
-  if (isLoggedIn === 'true') {
-    // إخفاء كل عناصر Sign in و Sign up
-    document.querySelectorAll('.login-item').forEach(el => el.style.display = 'none');
-    document.querySelectorAll('.signup-item').forEach(el => el.style.display = 'none');
-
-    // إضافة زر logout لكل قائمة فيها navbar أو sidebar أو mobile menu
-    const navLists = document.querySelectorAll('.navbar ul, .sidebar ul, .hiddenmobile ul');
-
-    navLists.forEach(nav => {
-      if (!nav.querySelector('#logout-item')) {
-        const logoutLi = document.createElement('li');
-        logoutLi.id = 'logout-item';
-        logoutLi.innerHTML = '<a href="#" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>';
-        nav.appendChild(logoutLi);
-      }
-    });
-
-    // ربط زر الخروج
-    document.addEventListener('click', function (e) {
-      if (e.target.id === 'logoutBtn' || e.target.closest('#logoutBtn')) {
-        localStorage.removeItem('loggedIn');
-        location.reload();
-      }
-    });
-  } else {
-    // تعطيل زر محمي إن لم يكن المستخدم مسجلاً
-    const restrictedButton = document.getElementById('myButton');
-    if (restrictedButton) {
-      restrictedButton.disabled = true;
-      restrictedButton.title = "يجب تسجيل الدخول لاستخدام هذا الزر";
-    }
-  }
-});*/
-
+   
 
 
 document.addEventListener("DOMContentLoaded", async function () {
@@ -569,8 +541,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     loggin = data.loggedIn;
 
     function updateAuthUI(isLoggedIn) {
-      // Desktop auth items
-      document.querySelectorAll('.desktop-auth-item').forEach(el => {
+           document.querySelectorAll('.desktop-auth-item').forEach(el => {
         if (el.classList.contains('logout-item')) {
           el.style.display = isLoggedIn ? 'block' : 'none';
         } else {
@@ -578,7 +549,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
       });
 
-      // Sidebar auth items
+      
       document.querySelectorAll('.sidebar-auth-item').forEach(el => {
         if (el.classList.contains('logout-item')) {
           el.style.display = isLoggedIn ? 'block' : 'none';
@@ -588,10 +559,10 @@ document.addEventListener("DOMContentLoaded", async function () {
       });
     }
 
-    // Update UI on load
+   
     updateAuthUI(data.loggedIn);
 
-    // Handle logout button clicks
+    
     document.addEventListener('click', function (e) {
       if (e.target.id === 'navLogoutBtn' || e.target.id === 'sidebarLogoutBtn' || 
           e.target.closest('#navLogoutBtn') || e.target.closest('#sidebarLogoutBtn')) {

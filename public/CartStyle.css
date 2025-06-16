@@ -9,7 +9,7 @@ body {
     background-color: #eeebeb;
 }
 
-/* Header Styles */
+
 .header {
     width: 100%;
     background-color: #bbe4e9;
@@ -71,7 +71,6 @@ body {
     background-color: #3d7a8a;
 }
 
-/* Navbar Styles */
 .navbar {
     display: flex;
     align-items: center;
@@ -186,7 +185,6 @@ body {
     display: none;
 }
 
-/* Banner Styles */
 .banner {
     width: 100%;
     margin-top: 20px;
@@ -199,7 +197,7 @@ body {
     border-radius: 10px;
 }
 
-/* Responsive Styles */
+
 @media (max-width: 800px) {
     .hidenonMobile {
         display: none;
@@ -306,5 +304,9 @@ hr{
     display: flex;
     padding: 50px 50px ;
     gap: 20px;
+ }
+
+ .mt-3{
+    font-size: 20px !important;
  }
 
